@@ -4,6 +4,8 @@ buildscript {
         jcenter()
         google()
         mavenCentral()
+        maven(url = "https://kotlin.bintray.com/kotlinx/")
+
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10")
@@ -19,5 +21,7 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
+        maven(url = "https://kotlin.bintray.com/kotlinx/")
+
     }
 }
