@@ -20,8 +20,6 @@ class Shift internal constructor(
         return numberCompare
     }
 
-
-
 }
 
 
