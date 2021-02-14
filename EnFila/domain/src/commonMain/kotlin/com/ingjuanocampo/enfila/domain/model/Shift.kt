@@ -6,6 +6,7 @@ import kotlinx.datetime.Clock
 class Shift internal constructor(
     val date: Long?,
     val id: String? = EMPTY_STRING,
+    val parentCompanySite: String,
     var number: Int = 0,
     val contactId: String?,
     val notes: String?,
@@ -25,6 +26,8 @@ class Shift internal constructor(
 
 object ShiftFactory {
 
+    var currentCompanySiteId: String = "companyid"// for testing
+
     fun createWaiting(number: Int,
                       contactId: String,
                       notes: String): Shift {
@@ -32,6 +35,7 @@ object ShiftFactory {
         return Shift(
             date = instantNow,
             id = instantNow.toString(),
+            parentCompanySite = currentCompanySiteId,
             number = number,
             contactId = contactId,
             notes = notes,

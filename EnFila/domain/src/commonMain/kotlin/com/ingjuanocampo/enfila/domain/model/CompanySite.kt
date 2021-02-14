@@ -3,7 +3,7 @@ package com.ingjuanocampo.enfila.domain.model
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 
 class CompanySite(
-    private val shifts: ArrayList<Shift>,
+    private val shifts: ArrayList<Shift> = arrayListOf(),// Move this value away
     private val id: String? = EMPTY_STRING,
     private val name: String? = EMPTY_STRING
 ) {
