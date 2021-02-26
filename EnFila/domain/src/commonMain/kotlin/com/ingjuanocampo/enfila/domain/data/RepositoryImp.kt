@@ -30,7 +30,7 @@ class RepositoryImp<Data>(
     }
 
     override fun getAndObserveData(repoInfo: RepoInfo?): Flow<Data> {
-        return flow<Data> {
+        return flow {
             val initialData = localSource.getData(repoInfo)
             emit(initialData) // First value from Local
             if (shouldFetch(initialData)) {
@@ -44,5 +44,13 @@ class RepositoryImp<Data>(
        return if (initialData != null) {
            rateLimiter.shouldFetch(key = keyId)
         } else true
+    }
+
+    override fun getData(repoInfo: RepoInfo?): Data {
+        return localSource.getData(repoInfo)
+    }
+
+    override fun delete(dataToDelete: Data) {
+        localSource.delete(dataToDelete)
     }
 }

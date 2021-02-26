@@ -6,5 +6,6 @@ interface LocalSource<Data> {
     fun createOrUpdate(data: Data)
     fun getData(repoInfo: RepoInfo?): Data
     fun getDataAndObserve(repoInfo: RepoInfo?): Flow<Data>
+    fun delete(dataToDelete: Data)
 
 }

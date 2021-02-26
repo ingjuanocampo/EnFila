@@ -25,4 +25,8 @@ class CompanySiteMockSource: LocalSource<List<CompanySite>> {
     override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<CompanySite>> {
         return flow { emit(list) }
     }
+
+    override fun delete(dataToDelete: List<CompanySite>) {
+        list.remove(dataToDelete)
+    }
 }

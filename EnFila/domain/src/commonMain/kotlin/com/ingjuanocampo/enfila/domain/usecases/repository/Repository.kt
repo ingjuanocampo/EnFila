@@ -9,7 +9,11 @@ interface Repository<Data> {
 
     fun refresh(repoInfo: RepoInfo? = null): Data
 
-    fun getAndObserveData(repoInfo: RepoInfo?): Flow<Data>
+    fun getAndObserveData(repoInfo: RepoInfo? = null): Flow<Data>
+
+    fun getData(repoInfo: RepoInfo? = null): Data
+
+    fun delete(listOf: Data)
 
 }
 

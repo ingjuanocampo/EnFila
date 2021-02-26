@@ -10,7 +10,7 @@ class Shift internal constructor(
     var number: Int = 0,
     val contactId: String?,
     val notes: String?,
-    val state: ShiftState
+    var state: ShiftState
 ) : Comparable<Shift> {
 
     override fun compareTo(other: Shift): Int {

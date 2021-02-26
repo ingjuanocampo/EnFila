@@ -5,6 +5,7 @@ import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.model.Shift
 import com.ingjuanocampo.enfila.domain.model.ShiftFactory
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 
 
@@ -16,11 +17,13 @@ private val list = arrayListOf(
     ShiftFactory.createWaiting(4, "4", "Fast please"),
     ShiftFactory.createWaiting(5, "5", "Fast please"))
 
-
 class ShiftsMockSource: LocalSource<List<Shift>> {
+
+    val flow =  MutableStateFlow<List<Shift>>(list)
 
     override fun createOrUpdate(data: List<Shift>) {
         list.addAll(data)
+        flow.tryEmit(list)
     }
 
     override fun getData(repoInfo: RepoInfo?): List<Shift> {
@@ -28,6 +31,11 @@ class ShiftsMockSource: LocalSource<List<Shift>> {
     }
 
     override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<Shift>> {
-        return flow { emit(list) }
+        return flow
+    }
+
+    override fun delete(dataToDelete: List<Shift>) {
+        list.remove(dataToDelete)
+        flow.tryEmit(list)
     }
 }

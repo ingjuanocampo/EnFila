@@ -48,4 +48,8 @@ class ContactMockSource : LocalSource<List<Contact>> {
     override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<Contact>> {
         return flow { emit(list) }
     }
+
+    override fun delete(dataToDelete: List<Contact>) {
+        list.remove(dataToDelete)
+    }
 }
