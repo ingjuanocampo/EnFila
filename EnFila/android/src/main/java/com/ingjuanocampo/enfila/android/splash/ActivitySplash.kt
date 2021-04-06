@@ -15,7 +15,7 @@ fun greet(): String {
 
 class SplashActivity : AppCompatActivity() {
 
-    val viewModel : ViewModelSplash by viewModels()
+    private val viewModel : ViewModelSplash by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
         val tv: TextView = findViewById(R.id.text_view)
         tv.text = greet()
         viewModel.state.observe(this, Observer {
+            finishAffinity()
             AppComponent.providesState().navigateLaunchScreen()
         })
     }
@@ -32,6 +33,4 @@ class SplashActivity : AppCompatActivity() {
         super.onResume()
         viewModel.launchSplash()
     }
-
-
 }
