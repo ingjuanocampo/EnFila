@@ -13,6 +13,5 @@ class AppEnFila: Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
-        AppComponent.providesState().navigateLaunchScreen()
     }
 }

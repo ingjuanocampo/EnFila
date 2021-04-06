@@ -7,12 +7,15 @@
     <application
         android:allowBackup="false"
         android:supportsRtl="true"
+        android:name=".AppEnFila"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ActivityLoggedUser"
-            android:label="@string/title_activity_lobby">
-        </activity>
+            android:name=".ActivityLobby"
+            android:label="@string/title_activity_lobby"/>
+        <activity
+            android:name=".ActivityLogin"
+            android:label="Activity login"/>
         <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
