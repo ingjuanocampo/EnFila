@@ -8,7 +8,7 @@ class AppStateProvider(
     private val notLoggedState: NotLoggedState
 ) {
 
-    private fun isLogged() = false
+    private fun isLogged() = true
 
     private var currentState: AppState = if (isLogged()) loggedState else notLoggedState
 

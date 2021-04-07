@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_splash)
 
         val tv: TextView = findViewById(R.id.text_view)
         viewModel.state.observe(this, Observer {

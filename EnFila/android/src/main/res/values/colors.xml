@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="white">#FFFFFF</color>
     <color name="colorPrimary">#F7D06E</color>
-    <color name="colorPrimaryDark">#E26036</color>
+    <color name="colorPrimaryDark">#FF6736</color>
     <color name="colorAccent">#F8CC5D</color>
     <color name="colorText1">#602924</color>
     <color name="colorText2">#0D4E50</color>
     <color name="colorText3">#DEEADE</color>
+
+    <color name="selectedButton">#602924</color>
+    <color name="unSelectedButton">#988E89</color>
 
 </resources>
