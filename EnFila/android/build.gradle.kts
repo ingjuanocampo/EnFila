@@ -24,7 +24,7 @@ android {
     compileSdkVersion(29)
     defaultConfig {
         applicationId = "com.ingjuanocampo.enfila.android"
-        minSdkVersion(24)
+        minSdkVersion(25)
         targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
