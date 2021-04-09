@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme.NoTitle">
 
         <activity
-            android:name=".ActivityLobby"
+            android:name=".lobby.ActivityLobby"
             android:label="@string/title_activity_lobby"/>
         <activity
             android:name=".ActivityLogin"
