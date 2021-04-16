@@ -4,6 +4,7 @@ import com.ingjuanocampo.enfila.domain.model.CompanySite
 import com.ingjuanocampo.enfila.domain.model.Shift
 import com.ingjuanocampo.enfila.domain.model.ShiftState
 import com.ingjuanocampo.enfila.domain.usecases.repository.Repository
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 
 class CompanySiteInteractions(
@@ -13,7 +14,7 @@ class CompanySiteInteractions(
 
     private var cacheCompany: CompanySite? = null
 
-    fun load() =
+    suspend fun load() =
         companyRepo.getAndObserveData().map {
             cacheCompany = it.firstOrNull()
             cacheCompany?.apply {
@@ -23,14 +24,15 @@ class CompanySiteInteractions(
         }
 
 
-    fun next(): Shift? {
+    suspend fun next(): Shift? {
         return cacheCompany?.shifts?.let { shifts ->
-            cacheCompany?.shifts?.sort()
-            if (shifts.isEmpty()) throw IllegalStateException("No Items")
-
-            val possibleNextShift = shifts[0]
-
-            if (possibleNextShift.state == ShiftState.WAITING) {
+            val current = getCurrentTurn()
+            current?.state = ShiftState.FINISHED
+            val possibleNextShift = cacheCompany?.shifts?.sorted()?.first {
+                it.state == ShiftState.WAITING
+            }
+            if (possibleNextShift?.state == ShiftState.WAITING) {
+                possibleNextShift.state = ShiftState.CALLING
                 return possibleNextShift
             } else throw IllegalStateException("No items")
         }
