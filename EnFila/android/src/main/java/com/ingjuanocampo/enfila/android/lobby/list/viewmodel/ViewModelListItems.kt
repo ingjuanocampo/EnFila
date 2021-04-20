@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.android.lobby.fragment.viewmodel
+package com.ingjuanocampo.enfila.android.lobby.list.viewmodel
 
 import androidx.lifecycle.ViewModel
 

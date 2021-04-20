@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.android.lobby.fragment.viewmodel
+package com.ingjuanocampo.enfila.android.lobby.history.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,10 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
 import com.ingjuanocampo.enfila.domain.model.Shift
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class ViewModelHome : ViewModel() {
 

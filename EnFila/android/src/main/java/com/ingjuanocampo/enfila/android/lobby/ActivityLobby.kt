@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ingjuanocampo.enfila.android.R
-import com.ingjuanocampo.enfila.android.lobby.fragment.FragmentHistory
-import com.ingjuanocampo.enfila.android.lobby.fragment.FragmentHome
-import com.ingjuanocampo.enfila.android.lobby.fragment.FragmentListItems
+import com.ingjuanocampo.enfila.android.lobby.history.FragmentHistory
+import com.ingjuanocampo.enfila.android.lobby.home.FragmentHome
+import com.ingjuanocampo.enfila.android.lobby.list.FragmentListItems
 import com.ingjuanocampo.enfila.android.menu.BottomMenuBuilder
 
 class ActivityLobby: AppCompatActivity() {

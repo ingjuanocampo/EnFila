@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.android.lobby.fragment
+package com.ingjuanocampo.enfila.android.lobby.home
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.ingjuanocampo.enfila.android.R
-import com.ingjuanocampo.enfila.android.lobby.fragment.viewmodel.HomeState
-import com.ingjuanocampo.enfila.android.lobby.fragment.viewmodel.ViewModelHome
+import com.ingjuanocampo.enfila.android.lobby.history.viewmodel.HomeState
+import com.ingjuanocampo.enfila.android.lobby.history.viewmodel.ViewModelHome
 
 class FragmentHome : Fragment() {
 

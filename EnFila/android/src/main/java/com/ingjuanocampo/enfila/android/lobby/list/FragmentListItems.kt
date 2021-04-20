@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.android.lobby.fragment
+package com.ingjuanocampo.enfila.android.lobby.list
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ingjuanocampo.enfila.android.R
-import com.ingjuanocampo.enfila.android.lobby.fragment.viewmodel.ViewModelListItems
+import com.ingjuanocampo.enfila.android.lobby.list.viewmodel.ViewModelListItems
 
 class FragmentListItems : Fragment() {
 
