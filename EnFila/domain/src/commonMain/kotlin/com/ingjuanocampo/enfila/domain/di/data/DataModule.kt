@@ -12,7 +12,7 @@ import com.ingjuanocampo.enfila.domain.model.Contact
 import com.ingjuanocampo.enfila.domain.model.Shift
 import com.ingjuanocampo.enfila.domain.usecases.repository.Repository
 
-class DataModule {
+internal object DataModule {
 
     val companySiteRepository: Repository<List<CompanySite>> by lazy {
         RepositoryImp(remoteSource = CompanySiteRemoteSource(),

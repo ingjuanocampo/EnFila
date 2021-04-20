@@ -4,11 +4,11 @@ import com.ingjuanocampo.enfila.domain.di.data.DataModule
 import com.ingjuanocampo.enfila.domain.usecases.CompanySiteInteractions
 import com.ingjuanocampo.enfila.domain.usecases.ShiftInteractions
 
-class DomainModule(val dataModule: DataModule) {
+object DomainModule {
 
-    fun providesCompanySiteInteractions(): CompanySiteInteractions = CompanySiteInteractions(dataModule.shiftsRepository,
-        dataModule.companySiteRepository)
+    fun providesCompanySiteInteractions(): CompanySiteInteractions = CompanySiteInteractions(DataModule.shiftsRepository,
+        DataModule.companySiteRepository)
 
-    fun providesShiftInteractions(): ShiftInteractions = ShiftInteractions(dataModule.shiftsRepository)
+    fun providesShiftInteractions(): ShiftInteractions = ShiftInteractions(DataModule.shiftsRepository)
 
 }

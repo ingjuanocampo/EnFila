@@ -2,18 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ingjuanocampo.enfila.android">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <application
         android:allowBackup="false"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:name=".AppEnFila"
+        android:theme="@style/AppTheme.NoTitle">
 
         <activity
-            android:name=".ActivityLoggedUser"
-            android:label="@string/title_activity_lobby">
-        </activity>
-        <activity android:name=".splash.SplashActivity">
+            android:name=".lobby.ActivityLobby"
+            android:label="@string/title_activity_lobby"/>
+        <activity
+            android:name=".ActivityLogin"
+            android:label="Activity login"/>
+        <activity android:name=".splash.SplashActivity"
+            android:theme="@style/AppTheme.NoTitle"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

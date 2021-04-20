@@ -18,7 +18,7 @@ kotlin {
             }
         }
     }
-    val coroutinesVersion = "1.4.2"
+    val coroutinesVersion = "1.4.3"
     val ktorVersion = "1.5.1"
     val serializationVersion = "1.0.1"
     sourceSets {

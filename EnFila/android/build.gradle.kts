@@ -18,13 +18,15 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.3.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 }
 
 android {
     compileSdkVersion(29)
     defaultConfig {
         applicationId = "com.ingjuanocampo.enfila.android"
-        minSdkVersion(24)
+        minSdkVersion(25)
         targetSdkVersion(29)
         versionCode = 1
         versionName = "1.0"
