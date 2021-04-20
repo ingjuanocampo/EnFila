@@ -28,13 +28,13 @@ class CompanySiteInteractions(
         return cacheCompany?.shifts?.let { shifts ->
             val current = getCurrentTurn()
             current?.state = ShiftState.FINISHED
-            val possibleNextShift = cacheCompany?.shifts?.sorted()?.first {
+            val possibleNextShift = cacheCompany?.shifts?.sorted()?.firstOrNull {
                 it.state == ShiftState.WAITING
             }
             if (possibleNextShift?.state == ShiftState.WAITING) {
                 possibleNextShift.state = ShiftState.CALLING
                 return possibleNextShift
-            } else throw IllegalStateException("No items")
+            } else null
         }
     }
 
