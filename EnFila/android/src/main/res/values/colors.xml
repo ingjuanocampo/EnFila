@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="white">#f5f5f5</color>
-    <color name="colorPrimary">#F7D06E</color>
-    <color name="colorPrimaryDark">#FF6736</color>
-    <color name="colorAccent">#F8CC5D</color>
-    <color name="colorText1">#602924</color>
-    <color name="colorText2">#0D4E50</color>
+
+<!--    <color name="white">#f5f5f5</color>-->
+<!--    <color name="colorPrimary">#F7D06E</color>-->
+<!--    <color name="colorPrimaryDark">#FF6736</color>-->
+<!--    <color name="colorAccent">#F8CC5D</color>-->
+<!--    -->
+<!--    -->
+
+
+    <color name="colorText1">#FFFFFF</color>
+    <color name="colorText2">#FDBE82</color>
     <color name="colorText3">#DEEADE</color>
 
     <color name="selectedButton">#ff3d00</color>
-    <color name="unSelectedButton">#757575</color>
+    <color name="unSelectedButton">#FFFFFF</color>
 
-    <color name="primaryColor">#fff176</color>
-    <color name="primaryLightColor">#ffffa8</color>
-    <color name="primaryDarkColor">#cabf45</color>
-    <color name="secondaryColor">#ff6f00</color>
-    <color name="secondaryLightColor">#ffa040</color>
+    <color name="primaryColor">#222E76</color>
+    <color name="primaryLightColor">#222E76</color>
+    <color name="primaryDarkColor">#2D3A88</color>
+    <color name="secondaryColor">#f43b53</color>
+    <color name="secondaryLightColor">#FDBE82</color>
     <color name="secondaryDarkColor">#c43e00</color>
-    <color name="primaryTextColor">#4e342e</color>
+    <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#546e7a</color>
 
 
