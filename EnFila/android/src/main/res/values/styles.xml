@@ -15,8 +15,21 @@
         <item name="android:textSize">@dimen/text_medium</item>
 
     </style>
+
+    <style name="Text.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Text.Large">
         <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="Text.Extra">
+        <item name="android:textSize">@dimen/text_extra</item>
+    </style>
+
+    <style name="Text.Extra.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Text.Large.Bold">
@@ -24,5 +37,5 @@
     </style>
 
 
-
+    <dimen name="text_extra">25sp</dimen>
 </resources>

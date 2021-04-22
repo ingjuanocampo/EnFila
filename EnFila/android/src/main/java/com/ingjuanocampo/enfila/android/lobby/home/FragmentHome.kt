@@ -31,9 +31,9 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<View>(R.id.nextTurn).setOnClickListener {
-            viewModel.next()
-        }
+        //view.findViewById<View>(R.id.nextTurn).setOnClickListener {
+        //    viewModel.next()
+        //}
 
         currentNumber = view.findViewById<TextView>(R.id.currentNumber)
     }
