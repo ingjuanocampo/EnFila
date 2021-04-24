@@ -2,7 +2,7 @@ package com.ingjuanocampo.enfila.domain.data.source.contact
 
 import com.ingjuanocampo.enfila.domain.data.source.LocalSource
 import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
-import com.ingjuanocampo.enfila.domain.model.Contact
+import com.ingjuanocampo.enfila.domain.entity.Contact
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -51,5 +51,17 @@ class ContactMockSource : LocalSource<List<Contact>> {
 
     override fun delete(dataToDelete: List<Contact>) {
         list.remove(dataToDelete)
+    }
+
+    override fun getAllObserveData(): Flow<List<Contact>> {
+        return flow { emit(list) }
+    }
+
+    override fun getAllData(): List<Contact> {
+        return list
+    }
+
+    override fun getById(id: String): List<Contact> {
+        return list.filter { it.id == id }
     }
 }

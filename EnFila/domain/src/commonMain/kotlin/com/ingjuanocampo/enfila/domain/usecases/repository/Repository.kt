@@ -13,6 +13,12 @@ interface Repository<Data> {
 
     fun getData(repoInfo: RepoInfo? = null): Data
 
+    fun getAllObserveData(): Flow<Data>
+
+    fun getAllData(): Data
+
+    fun getById(id: String): Data
+
     fun delete(listOf: Data)
 
 }

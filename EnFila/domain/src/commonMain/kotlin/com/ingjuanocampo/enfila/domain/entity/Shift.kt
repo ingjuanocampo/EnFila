@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.domain.model
+package com.ingjuanocampo.enfila.domain.entity
 
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 import kotlinx.datetime.Clock
@@ -8,7 +8,7 @@ class Shift internal constructor(
     val id: String? = EMPTY_STRING,
     val parentCompanySite: String,
     var number: Int = 0,
-    val contactId: String?,
+    val contactId: String,
     val notes: String?,
     var state: ShiftState
 ) : Comparable<Shift> {

@@ -53,4 +53,23 @@ class RepositoryImp<Data>(
     override fun delete(dataToDelete: Data) {
         localSource.delete(dataToDelete)
     }
+
+    override fun getAllObserveData(): Flow<Data> {
+        return flow {
+            val initialData = localSource.getAllData()
+            emit(initialData) // First value from Local
+            if (shouldFetch(initialData)) {
+                val dataToLocal = remoteSource.fetchData()
+                localSource.createOrUpdate(dataToLocal)
+            }
+        }.flatMapConcat { localSource.getAllObserveData() }
+    }
+
+    override fun getAllData(): Data {
+        return localSource.getAllData()
+    }
+
+    override fun getById(id: String): Data {
+        return localSource.getById(id)
+    }
 }

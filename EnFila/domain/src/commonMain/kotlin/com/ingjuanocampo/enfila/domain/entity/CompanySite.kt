@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.domain.model
+package com.ingjuanocampo.enfila.domain.entity
 
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 

@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.domain.model
+package com.ingjuanocampo.enfila.domain.entity
 
 enum class ShiftState {
     WAITING,

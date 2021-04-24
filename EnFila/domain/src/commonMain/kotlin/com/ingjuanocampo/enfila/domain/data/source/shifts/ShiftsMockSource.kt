@@ -2,8 +2,8 @@ package com.ingjuanocampo.enfila.domain.data.source.shifts
 
 import com.ingjuanocampo.enfila.domain.data.source.LocalSource
 import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
-import com.ingjuanocampo.enfila.domain.model.Shift
-import com.ingjuanocampo.enfila.domain.model.ShiftFactory
+import com.ingjuanocampo.enfila.domain.entity.Shift
+import com.ingjuanocampo.enfila.domain.entity.ShiftFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
@@ -37,5 +37,17 @@ class ShiftsMockSource: LocalSource<List<Shift>> {
     override fun delete(dataToDelete: List<Shift>) {
         list.remove(dataToDelete)
         flow.tryEmit(list)
+    }
+
+    override fun getAllObserveData(): Flow<List<Shift>> {
+        return flow { list }
+    }
+
+    override fun getAllData(): List<Shift> {
+        return  list
+    }
+
+    override fun getById(id: String): List<Shift> {
+        return list.filter { it.id == id }
     }
 }

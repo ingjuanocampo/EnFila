@@ -1,5 +1,6 @@
 package com.ingjuanocampo.enfila.android.utils
 
 enum class ViewTypes {
-    SHIFT
+    SHIFT,
+    USER
 }

@@ -7,5 +7,8 @@ interface LocalSource<Data> {
     fun getData(repoInfo: RepoInfo?): Data
     fun getDataAndObserve(repoInfo: RepoInfo?): Flow<Data>
     fun delete(dataToDelete: Data)
+    fun getAllObserveData(): Flow<Data>
+    fun getAllData(): Data
+    fun getById(id: String): Data
 
 }

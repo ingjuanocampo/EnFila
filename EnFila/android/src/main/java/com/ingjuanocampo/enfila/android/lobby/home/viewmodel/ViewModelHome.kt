@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
-import com.ingjuanocampo.enfila.domain.model.Shift
+import com.ingjuanocampo.enfila.domain.entity.Shift
 import kotlinx.coroutines.flow.collect
 
 class ViewModelHome : ViewModel() {

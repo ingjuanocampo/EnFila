@@ -1,10 +1,10 @@
 package com.ingjuanocampo.enfila.domain.usecases
 
-import com.ingjuanocampo.enfila.domain.model.CompanySite
-import com.ingjuanocampo.enfila.domain.model.Shift
-import com.ingjuanocampo.enfila.domain.model.ShiftState
+import com.ingjuanocampo.enfila.domain.entity.CompanySite
+import com.ingjuanocampo.enfila.domain.entity.Shift
+import com.ingjuanocampo.enfila.domain.entity.ShiftState
 import com.ingjuanocampo.enfila.domain.usecases.repository.Repository
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CompanySiteInteractions(

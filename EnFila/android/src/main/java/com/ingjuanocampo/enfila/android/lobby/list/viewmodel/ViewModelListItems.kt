@@ -19,7 +19,8 @@ class ViewModelListItems : ViewModel() {
                 ShiftItem(id = it.id?.toInt() ?: 0,
             name = it.contactId ?: "",
             phone = ""  ,
-            currentTurn = it.number.toString()
+            currentTurn = it.number.toString(),
+                    issueDate = it.date ?: 0L
             ) }
         }
     }
