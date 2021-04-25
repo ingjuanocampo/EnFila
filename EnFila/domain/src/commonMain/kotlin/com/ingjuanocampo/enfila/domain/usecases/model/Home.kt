@@ -5,9 +5,9 @@ import com.ingjuanocampo.enfila.domain.entity.Contact
 import com.ingjuanocampo.enfila.domain.entity.Shift
 
 class Home(val selectedCompany: CompanySite,
-           var totalTurns: Int,
-           var avrTime: Long) {
+           var totalTurns: Int = 0,
+           var avrTime: Long = 0) {
     var currentTurn: ShiftWithClient? = null
 }
 
-data class ShiftWithClient(val shift: Shift, val user: Contact)
+data class ShiftWithClient(val shift: Shift, val client: Contact)

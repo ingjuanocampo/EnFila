@@ -1,11 +1,11 @@
-package com.ingjuanocampo.enfila.android.lobby.history.viewmodel
+package com.ingjuanocampo.enfila.android.lobby.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
-import com.ingjuanocampo.enfila.domain.entity.Shift
+import com.ingjuanocampo.enfila.domain.usecases.model.Home
 import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
 import kotlinx.coroutines.flow.collect
 
@@ -18,7 +18,7 @@ class ViewModelHome : ViewModel() {
         viewModelScope.launchGeneral {
             state.postValue(HomeState.Loading)
             homeUC.load().collect {
-                updateCurrentTurn(it.currentTurn)
+                state.postValue(HomeState.HomeLoaded(it))
             }
 
         }
@@ -43,5 +43,6 @@ class ViewModelHome : ViewModel() {
 sealed class HomeState {
     object Loading: HomeState()
     object Empty: HomeState()
+    data class HomeLoaded(val home: Home) : HomeState()
     data class CurrentTurn(val shift: ShiftWithClient) : HomeState()
 }

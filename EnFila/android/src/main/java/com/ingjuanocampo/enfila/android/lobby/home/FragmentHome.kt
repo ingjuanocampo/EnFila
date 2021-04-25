@@ -2,15 +2,16 @@ package com.ingjuanocampo.enfila.android.lobby.home
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.ingjuanocampo.enfila.android.R
-import com.ingjuanocampo.enfila.android.lobby.history.viewmodel.HomeState
-import com.ingjuanocampo.enfila.android.lobby.history.viewmodel.ViewModelHome
+import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.HomeState
+import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.ViewModelHome
+import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
 
 class FragmentHome : Fragment() {
 
@@ -18,7 +19,14 @@ class FragmentHome : Fragment() {
         fun newInstance() = FragmentHome()
     }
 
+    private var toolbar: Toolbar? = null
     private var currentNumber: TextView? = null
+    private var clientName: TextView? = null
+    private var clientPhone: TextView? = null
+    private var waitTime: TextView? = null
+    private var totalInline: TextView? = null
+    private var totalAverageTime: TextView? = null
+
     private lateinit var viewModel: ViewModelHome
 
     override fun onCreateView(
@@ -35,7 +43,20 @@ class FragmentHome : Fragment() {
             viewModel.next()
         }
 
+        toolbar = view.findViewById<Toolbar>(R.id.toolbarWidget)
+       setHasOptionsMenu(true)
         currentNumber = view.findViewById<TextView>(R.id.currentNumber)
+        clientName = view.findViewById<TextView>(R.id.clientName)
+        clientPhone = view.findViewById<TextView>(R.id.clientPhone)
+        waitTime = view.findViewById<TextView>(R.id.waitTime)
+        totalInline = view.findViewById<TextView>(R.id.totalInline)
+        totalAverageTime = view.findViewById<TextView>(R.id.totalAverageTime)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.dashboard_menu, menu)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,13 +70,37 @@ class FragmentHome : Fragment() {
                 HomeState.Loading -> {
                 }
                 HomeState.Empty -> {
-                    currentNumber?.text = "---"
+                    setEmpty()
                 }
                 is HomeState.CurrentTurn -> {
-                    currentNumber?.text = "${it.shift.shift.number}"
+                    updateShift(it.shift)
+                }
+                is HomeState.HomeLoaded -> {
+                    toolbar?.title = it.home.selectedCompany.name
+                    totalInline?.text = it.home.totalTurns.toString()
+                    totalAverageTime?.text = it.home.avrTime.toString()
+                    updateShift(it.home.currentTurn)
+
                 }
             }
         })
     }
+
+    private fun setEmpty() {
+        currentNumber?.text = "---"
+        clientName?.text = "---"
+        clientPhone?.text = "---"
+        waitTime?.text = "---"
+    }
+
+    private fun updateShift(shift: ShiftWithClient?) {
+        shift?.let {
+            clientName?.text = shift.client.name
+            clientPhone?.text = shift.client.phone
+            waitTime?.text = "${shift.shift.date}"
+            currentNumber?.text = "${shift.shift.number}"
+        } ?: setEmpty()
+    }
+
 
 }
