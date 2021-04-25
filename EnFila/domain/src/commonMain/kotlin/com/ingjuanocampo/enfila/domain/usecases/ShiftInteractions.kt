@@ -3,12 +3,11 @@ package com.ingjuanocampo.enfila.domain.usecases
 import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
-import com.ingjuanocampo.enfila.domain.usecases.repository.Repository
-import kotlinx.coroutines.flow.map
+import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 
 class ShiftInteractions(private val shiftsRepo: Repository<List<Shift>>) {
 
-    private var cachedShift: Shift? = null
+   /*private var cachedShift: Shift? = null
 
     fun getAll() = shiftsRepo.getAllObserveData()
 
@@ -46,7 +45,7 @@ class ShiftInteractions(private val shiftsRepo: Repository<List<Shift>>) {
             it.state = ShiftState.FINISHED
             shiftsRepo.createOrUpdate(listOf(it))
         }
-    }
+    }*/
 
 }
 

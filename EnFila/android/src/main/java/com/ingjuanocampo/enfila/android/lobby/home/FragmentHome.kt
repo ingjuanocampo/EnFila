@@ -31,9 +31,9 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //view.findViewById<View>(R.id.nextTurn).setOnClickListener {
-        //    viewModel.next()
-        //}
+        view.findViewById<View>(R.id.callAction).setOnClickListener {
+            viewModel.next()
+        }
 
         currentNumber = view.findViewById<TextView>(R.id.currentNumber)
     }
@@ -52,7 +52,7 @@ class FragmentHome : Fragment() {
                     currentNumber?.text = "---"
                 }
                 is HomeState.CurrentTurn -> {
-                    currentNumber?.text = "${it.shift.number}"
+                    currentNumber?.text = "${it.shift.shift.number}"
                 }
             }
         })

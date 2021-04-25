@@ -13,7 +13,7 @@ class ViewModelListItems : ViewModel() {
     private val companySiteInteractions = DomainModule.providesCompanySiteInteractions()
 
     fun load() {
-        viewModelScope.launchGeneral {
+        /*viewModelScope.launchGeneral {
             state.value = companySiteInteractions.getActiveShifts()?.map {
 
                 ShiftItem(id = it.id?.toInt() ?: 0,
@@ -22,7 +22,7 @@ class ViewModelListItems : ViewModel() {
             currentTurn = it.number.toString(),
                     issueDate = it.date ?: 0L
             ) }
-        }
+        }*/
     }
 
 }

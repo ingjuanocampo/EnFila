@@ -37,11 +37,11 @@ val list = arrayListOf(
 )
 
 class ContactMockSource : LocalSource<List<Contact>> {
-    override fun createOrUpdate(data: List<Contact>) {
+    override suspend fun createOrUpdate(data: List<Contact>) {
         list.addAll(data)
     }
 
-    override fun getData(repoInfo: RepoInfo?): List<Contact> {
+    override suspend fun getData(repoInfo: RepoInfo?): List<Contact> {
         return list
     }
 
@@ -49,7 +49,7 @@ class ContactMockSource : LocalSource<List<Contact>> {
         return flow { emit(list) }
     }
 
-    override fun delete(dataToDelete: List<Contact>) {
+    override suspend fun delete(dataToDelete: List<Contact>) {
         list.remove(dataToDelete)
     }
 
@@ -57,11 +57,15 @@ class ContactMockSource : LocalSource<List<Contact>> {
         return flow { emit(list) }
     }
 
-    override fun getAllData(): List<Contact> {
+    override suspend fun getAllData(): List<Contact> {
         return list
     }
 
-    override fun getById(id: String): List<Contact> {
+    override suspend fun getById(id: String): List<Contact> {
         return list.filter { it.id == id }
+    }
+
+    override suspend fun delete(id: String) {
+        TODO("Not yet implemented")
     }
 }

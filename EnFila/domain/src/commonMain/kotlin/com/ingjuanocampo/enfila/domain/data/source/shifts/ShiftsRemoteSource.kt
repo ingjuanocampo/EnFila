@@ -5,15 +5,13 @@ import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.entity.Shift
 
 class ShiftsRemoteSource: RemoteSource<List<Shift>> {
-    override fun fetchData(repoInfo: RepoInfo?): List<Shift> {
-        return emptyList()
-    }
 
-    override fun updateData(data: List<Shift>, repoInfo: RepoInfo?) {
-    }
 
     override fun fetchData(): List<Shift> {
         return emptyList()
+    }
+
+    override fun updateData(data: List<Shift>) {
     }
 
 
