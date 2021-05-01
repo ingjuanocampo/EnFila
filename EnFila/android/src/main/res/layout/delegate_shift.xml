@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:padding="5dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:text="1"
+        android:id="@+id/currentTurn"/>
+
+
+    <TextView
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/currentTurn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="45"
+        android:textSize="20sp"
+        android:text="3137550993"
+        android:id="@+id/number"/>
+
+
+    <TextView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/number"
+        app:layout_constraintTop_toBottomOf="@id/number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="45"
+        android:text="Pepito"
+        android:id="@+id/name"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

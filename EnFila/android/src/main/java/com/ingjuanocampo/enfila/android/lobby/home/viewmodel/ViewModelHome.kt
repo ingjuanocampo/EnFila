@@ -1,38 +1,30 @@
-package com.ingjuanocampo.enfila.android.lobby.fragment.viewmodel
+package com.ingjuanocampo.enfila.android.lobby.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
-import com.ingjuanocampo.enfila.domain.model.Shift
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.ingjuanocampo.enfila.domain.usecases.model.Home
+import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class ViewModelHome : ViewModel() {
 
-    private val companySiteInteractions = DomainModule.providesCompanySiteInteractions()
+    private val homeUC = DomainModule.provideHomeUC()
     val state = MutableLiveData<HomeState>()
 
     fun loadCurrentTurn() {
         viewModelScope.launchGeneral {
             state.postValue(HomeState.Loading)
-
-            companySiteInteractions.load().collect {
-                loadAndPostCurrent()
+            homeUC.load().collect {
+                state.postValue(HomeState.HomeLoaded(it))
             }
 
         }
     }
 
-    private fun loadAndPostCurrent() {
-        val currentTurn = companySiteInteractions.getCurrentTurn()
-        updateCurrentTurn(currentTurn)
-    }
-
-    private fun updateCurrentTurn(currentTurn: Shift?) {
+    private fun updateCurrentTurn(currentTurn: ShiftWithClient?) {
         if (currentTurn!= null) {
             state.postValue(HomeState.CurrentTurn(currentTurn))
         } else {
@@ -42,7 +34,7 @@ class ViewModelHome : ViewModel() {
 
     fun next() {
         viewModelScope.launchGeneral {
-            updateCurrentTurn(companySiteInteractions.next())
+            updateCurrentTurn(homeUC.next())
         }
     }
 
@@ -51,5 +43,6 @@ class ViewModelHome : ViewModel() {
 sealed class HomeState {
     object Loading: HomeState()
     object Empty: HomeState()
-    data class CurrentTurn(val shift: Shift) : HomeState()
+    data class HomeLoaded(val home: Home) : HomeState()
+    data class CurrentTurn(val shift: ShiftWithClient) : HomeState()
 }

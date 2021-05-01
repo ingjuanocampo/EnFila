@@ -3,10 +3,11 @@ package com.ingjuanocampo.enfila.android.lobby
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_SELECTED
 import com.ingjuanocampo.enfila.android.R
-import com.ingjuanocampo.enfila.android.lobby.fragment.FragmentHistory
-import com.ingjuanocampo.enfila.android.lobby.fragment.FragmentHome
-import com.ingjuanocampo.enfila.android.lobby.fragment.FragmentListItems
+import com.ingjuanocampo.enfila.android.lobby.history.FragmentHistory
+import com.ingjuanocampo.enfila.android.lobby.home.FragmentHome
+import com.ingjuanocampo.enfila.android.lobby.list.FragmentListItems
 import com.ingjuanocampo.enfila.android.menu.BottomMenuBuilder
 
 class ActivityLobby: AppCompatActivity() {
@@ -22,6 +23,7 @@ class ActivityLobby: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         var bottomNav: BottomNavigationView = findViewById(R.id.bottomNav)
+        bottomNav.labelVisibilityMode = LABEL_VISIBILITY_SELECTED
         bottomNavBuilder.attachMenu(bottomNav, supportFragmentManager)
     }
 

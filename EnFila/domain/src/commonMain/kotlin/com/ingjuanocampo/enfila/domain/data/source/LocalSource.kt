@@ -3,9 +3,13 @@ package com.ingjuanocampo.enfila.domain.data.source
 import kotlinx.coroutines.flow.Flow
 
 interface LocalSource<Data> {
-    fun createOrUpdate(data: Data)
-    fun getData(repoInfo: RepoInfo?): Data
+    suspend fun createOrUpdate(data: Data)
+    suspend fun getData(repoInfo: RepoInfo?): Data
     fun getDataAndObserve(repoInfo: RepoInfo?): Flow<Data>
-    fun delete(dataToDelete: Data)
+    suspend fun delete(dataToDelete: Data)
+    suspend fun delete(id: String)
+    fun getAllObserveData(): Flow<Data>
+    suspend fun getAllData(): Data
+    suspend fun getById(id: String): Data
 
 }

@@ -1,16 +1,17 @@
 package com.ingjuanocampo.enfila.domain.di.data
 
 import com.ingjuanocampo.enfila.domain.data.RepositoryImp
+import com.ingjuanocampo.enfila.domain.data.ShiftRepositoryImpl
 import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteMockSource
 import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteRemoteSource
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactMockSource
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactRemoteSource
-import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftsMockSource
+import com.ingjuanocampo.enfila.domain.data.source.shifts.mock.ShiftsMockSource
 import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftsRemoteSource
-import com.ingjuanocampo.enfila.domain.model.CompanySite
-import com.ingjuanocampo.enfila.domain.model.Contact
-import com.ingjuanocampo.enfila.domain.model.Shift
-import com.ingjuanocampo.enfila.domain.usecases.repository.Repository
+import com.ingjuanocampo.enfila.domain.entity.CompanySite
+import com.ingjuanocampo.enfila.domain.entity.Contact
+import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
+import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 
 internal object DataModule {
 
@@ -24,9 +25,10 @@ internal object DataModule {
             localSource = ContactMockSource())
     }
 
-    val shiftsRepository: Repository<List<Shift>> by lazy {
-        RepositoryImp(remoteSource = ShiftsRemoteSource(),
-            localSource = ShiftsMockSource())
+    val shiftsRepository: ShiftRepository by lazy {
+        ShiftRepositoryImpl(remoteSource = ShiftsRemoteSource(),
+            localSource = ShiftsMockSource()
+        )
     }
 
 }

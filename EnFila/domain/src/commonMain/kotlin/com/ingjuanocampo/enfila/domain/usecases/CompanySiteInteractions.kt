@@ -1,21 +1,19 @@
 package com.ingjuanocampo.enfila.domain.usecases
 
-import com.ingjuanocampo.enfila.domain.model.CompanySite
-import com.ingjuanocampo.enfila.domain.model.Shift
-import com.ingjuanocampo.enfila.domain.model.ShiftState
-import com.ingjuanocampo.enfila.domain.usecases.repository.Repository
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
+import com.ingjuanocampo.enfila.domain.entity.CompanySite
+import com.ingjuanocampo.enfila.domain.entity.Shift
+import com.ingjuanocampo.enfila.domain.entity.ShiftState
+import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 
 class CompanySiteInteractions(
     private val shiftsRepo: Repository<List<Shift>>,
     private val companyRepo: Repository<List<CompanySite>>
 ) {
 
-    private var cacheCompany: CompanySite? = null
+    /*private var cacheCompany: CompanySite? = null
 
     suspend fun load() =
-        companyRepo.getAndObserveData().map {
+        companyRepo.getById().map {
             cacheCompany = it.firstOrNull()
             cacheCompany?.apply {
                 shifts = shiftsRepo.getData(GetShiftById(id)) as ArrayList<Shift>
@@ -52,6 +50,6 @@ class CompanySiteInteractions(
 
     fun getCurrentTurn(): Shift? {
         return cacheCompany?.shifts?.firstOrNull { it.state == ShiftState.CALLING }
-    }
+    }*/
 
 }

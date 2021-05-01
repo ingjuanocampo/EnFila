@@ -1,14 +1,15 @@
 package com.ingjuanocampo.enfila.domain.usecases
 
 import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
-import com.ingjuanocampo.enfila.domain.model.Shift
-import com.ingjuanocampo.enfila.domain.model.ShiftState
-import com.ingjuanocampo.enfila.domain.usecases.repository.Repository
-import kotlinx.coroutines.flow.map
+import com.ingjuanocampo.enfila.domain.entity.Shift
+import com.ingjuanocampo.enfila.domain.entity.ShiftState
+import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 
 class ShiftInteractions(private val shiftsRepo: Repository<List<Shift>>) {
 
-    private var cachedShift: Shift? = null
+   /*private var cachedShift: Shift? = null
+
+    fun getAll() = shiftsRepo.getAllObserveData()
 
     fun loadShiftById(id: String) = shiftsRepo.getAndObserveData(GetShiftById(id))
         .map {
@@ -16,6 +17,8 @@ class ShiftInteractions(private val shiftsRepo: Repository<List<Shift>>) {
             if (cachedShift == null) IllegalStateException("Shift not found")
             cachedShift
         }
+
+    fun getCurrentShiftFlow() = shiftsRepo.getAndObserveData(GetCurrentShift)
 
     fun call() {
         cachedShift?.let {
@@ -42,8 +45,9 @@ class ShiftInteractions(private val shiftsRepo: Repository<List<Shift>>) {
             it.state = ShiftState.FINISHED
             shiftsRepo.createOrUpdate(listOf(it))
         }
-    }
+    }*/
 
 }
 
 class GetShiftById(val id: String) : RepoInfo
+object GetCurrentShift: RepoInfo
