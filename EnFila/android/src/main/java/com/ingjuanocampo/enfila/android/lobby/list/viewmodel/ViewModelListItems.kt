@@ -5,24 +5,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.lobby.list.ShiftItem
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
-import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
+import com.ingjuanocampo.enfila.domain.di.domain.DomainModule.provideListUC
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 
 class ViewModelListItems : ViewModel() {
 
     val state = MutableLiveData<List<ShiftItem>>()
-    private val companySiteInteractions = DomainModule.providesCompanySiteInteractions()
+
+    private val listUC = provideListUC()
 
     fun load() {
-        /*viewModelScope.launchGeneral {
-            state.value = companySiteInteractions.getActiveShifts()?.map {
+        viewModelScope.launchGeneral {
+            listUC.loadShift().map { shifts ->
+                shifts.map {
+                    ShiftItem(
+                        id = it.shift.id?.toInt() ?: 0,
+                        name = it.client.name ?: "",
+                        phone = it.client?.phone ?: "",
+                        currentTurn = it.shift.number.toString(),
+                        issueDate = it.shift.date ?: 0L
+                    )
+                }
 
-                ShiftItem(id = it.id?.toInt() ?: 0,
-            name = it.contactId ?: "",
-            phone = ""  ,
-            currentTurn = it.number.toString(),
-                    issueDate = it.date ?: 0L
-            ) }
-        }*/
+            }.collect {
+                state.value = it
+            }
+        }
     }
 
 }

@@ -1,12 +1,12 @@
 package com.ingjuanocampo.enfila.android.lobby.list
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.ingjuanocampo.cdapter.CompositeDelegateAdapter
 import com.ingjuanocampo.enfila.android.R
@@ -16,12 +16,21 @@ import com.ingjuanocampo.enfila.android.utils.ViewTypes
 
 class FragmentListItems : Fragment() {
 
+    private lateinit var adapter: CompositeDelegateAdapter
     val viewModel: ViewModelListItems by viewModels()
 
     companion object {
         fun newInstance() = FragmentListItems()
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.load()
+        viewModel.state.observe(this, Observer {
+            adapter.addNewItems(it)
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +44,9 @@ class FragmentListItems : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recycler: RecyclerView = view.findViewById(R.id.recycler)
 
-        val adapter = CompositeDelegateAdapter(1).apply {
-            appendDelegate(ViewTypes.SHIFT.ordinal
+        adapter = CompositeDelegateAdapter(1).apply {
+            appendDelegate(
+                ViewTypes.SHIFT.ordinal
             ) { DelegateShift(it) }
         }
         recycler.adapter = adapter

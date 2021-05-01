@@ -1,7 +1,7 @@
 package com.ingjuanocampo.enfila.domain.usecases
 
 import com.ingjuanocampo.enfila.domain.entity.CompanySite
-import com.ingjuanocampo.enfila.domain.entity.Contact
+import com.ingjuanocampo.enfila.domain.entity.Client
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
 import com.ingjuanocampo.enfila.domain.usecases.model.Home
@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.DateTimeUnit
 
 class HomeUC(private val companyRepo: Repository<List<CompanySite>>
-             , val contactRepository: Repository<List<Contact>>,
-             val shiftRepository: ShiftRepository
+             , val clientRepository: Repository<List<Client>>,
+             val shiftRepository: ShiftRepository,
+             val shiftInteractions: ShiftInteractions
 ) {
 
     private var homeCache : Home? = null
@@ -35,8 +35,7 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
 
             shiftRepository.getCallingShift().collect { shift ->
                 shift?.let {
-                    val client = contactRepository.getById(it.contactId).first()
-                    home.currentTurn = ShiftWithClient(it, client)
+                    home.currentTurn = shiftInteractions.loadShiftWithClient(it)
                     homeCache = home
                     emit(home)
                 }
@@ -46,23 +45,8 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
 
 
     suspend fun next(): ShiftWithClient? {
-        homeCache?.currentTurn?.let { shift ->
-            val current = shift.shift
-            current?.state = ShiftState.FINISHED
-            shiftRepository.createOrUpdate(listOf(current))
-
-        }
-
-        val closestShift = shiftRepository.getClosestShift().firstOrNull()
-        closestShift?.state = ShiftState.CALLING
-
-        closestShift?.let {
-            shiftRepository.createOrUpdate(listOf(it))
-        }
-        return closestShift?.let {
-            ShiftWithClient(
-                it,
-                contactRepository.getById(it.contactId).first())
+        return homeCache?.currentTurn?.let { shift ->
+           shiftInteractions.next(shift.shift)
         }
     }
 

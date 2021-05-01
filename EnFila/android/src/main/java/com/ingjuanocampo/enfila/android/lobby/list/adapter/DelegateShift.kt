@@ -18,7 +18,7 @@ class DelegateShift(parent: ViewGroup):
     override fun onBindViewHolder(recyclerViewType: RecyclerViewType) {
         val shiftItem = recyclerViewType as ShiftItem
         currentTurn.text = shiftItem.currentTurn
-        number.text = shiftItem.phone
-        name.text = shiftItem.name
+        number.text = shiftItem.user?.phone
+        name.text = shiftItem.user?.name
     }
 }
