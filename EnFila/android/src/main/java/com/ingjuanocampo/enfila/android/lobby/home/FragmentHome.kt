@@ -76,7 +76,7 @@ class FragmentHome : Fragment() {
                     updateShift(it.shift)
                 }
                 is HomeState.HomeLoaded -> {
-                    toolbar?.title = it.home.selectedCompany.name
+                    (requireActivity() as AppCompatActivity).supportActionBar?.title = it.home.selectedCompany.name
                     totalInline?.text = it.home.totalTurns.toString()
                     totalAverageTime?.text = it.home.avrTime.toString()
                     updateShift(it.home.currentTurn)

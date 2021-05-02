@@ -1,6 +1,8 @@
 package com.ingjuanocampo.enfila.android.menu
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,7 +17,8 @@ class BottomMenuBuilder {
         return this
     }
 
-    fun attachMenu(bottomNav: BottomNavigationView, supportFragment: FragmentManager) {
+    @SuppressLint("ResourceType")
+    fun attachMenu(bottomNav: BottomNavigationView, activity: AppCompatActivity) {
         bottomNav.inflateMenu(R.menu.bottom_navigation_menu)
         bottomNav.menu.clear()
         listOfItems.forEach {
@@ -24,11 +27,15 @@ class BottomMenuBuilder {
                 icon = it.icon
             }
         }
-        attachFragment(listOfItems[0].fragmentFactory(), supportFragment)
+        attachFragment(listOfItems[1].fragmentFactory(), activity.supportFragmentManager)
+        activity.supportActionBar?.title = listOfItems[1].title
+        bottomNav.selectedItemId = 1
 
         bottomNav.setOnNavigationItemSelectedListener {
             val fragment = this.listOfItems[it.itemId].fragmentFactory()
-            attachFragment(fragment, supportFragment)
+            activity.supportActionBar?.title = listOfItems[it.itemId].title
+
+            attachFragment(fragment, activity.supportFragmentManager)
             true
         }
     }
