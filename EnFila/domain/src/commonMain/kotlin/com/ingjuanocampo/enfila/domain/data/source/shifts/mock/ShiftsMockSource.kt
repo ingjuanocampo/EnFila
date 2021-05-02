@@ -5,7 +5,9 @@ import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftLocalSource
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftFactory
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 
 // Constant mock data
@@ -19,12 +21,15 @@ private val list = arrayListOf(
 
 class ShiftsMockSource : ShiftLocalSource {
 
-    val flow = MutableStateFlow<List<Shift>>(list)
+    val flow = MutableSharedFlow<List<Shift>>(3)
+
+    init {
+        GlobalScope.launch {
+            flow.emit(list)
+        }
+    }
 
     override fun getClosestShift(): Flow<Shift?> {
-       /* return flow {
-            list?.firstOrNull { it.state == ShiftState.WAITING }?.let { emit(it) }
-        }*/
         return flow.map { list ->
             list?.firstOrNull { it.state == ShiftState.WAITING }
         }

@@ -4,10 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.lobby.list.ShiftItem
-import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule.provideListUC
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class ViewModelListItems : ViewModel() {
 
@@ -15,9 +15,9 @@ class ViewModelListItems : ViewModel() {
 
     private val listUC = provideListUC()
 
-    fun load() {
-        viewModelScope.launchGeneral {
-            listUC.loadShift().map { shifts ->
+    fun load(isActive: Boolean  = true) {
+        viewModelScope.launch {
+            (if (isActive) listUC.loadActiveShift() else listUC.loadInactiveShift()).map { shifts ->
                 shifts.map {
                     ShiftItem(
                         id = it.shift.id?.toInt() ?: 0,

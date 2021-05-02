@@ -10,8 +10,8 @@ class BottomMenuBuilder {
 
     private val listOfItems = ArrayList<BottomMenuItem>()
 
-    fun appendItem(fragment: Fragment, title: String, icon: Drawable?): BottomMenuBuilder {
-        listOfItems.add(BottomMenuItem(fragment, title, icon))
+    fun appendItem(fragmentFactory: () -> Fragment, title: String, icon: Drawable?): BottomMenuBuilder {
+        listOfItems.add(BottomMenuItem(fragmentFactory, title, icon))
         return this
     }
 
@@ -24,10 +24,10 @@ class BottomMenuBuilder {
                 icon = it.icon
             }
         }
-        attachFragment(listOfItems[0].fragment, supportFragment)
+        attachFragment(listOfItems[0].fragmentFactory(), supportFragment)
 
         bottomNav.setOnNavigationItemSelectedListener {
-            val fragment = this.listOfItems[it.itemId].fragment
+            val fragment = this.listOfItems[it.itemId].fragmentFactory()
             attachFragment(fragment, supportFragment)
             true
         }
@@ -41,5 +41,5 @@ class BottomMenuBuilder {
     }
 
 
-    internal class BottomMenuItem(val fragment: Fragment, val title: String, val icon: Drawable?)
+    internal class BottomMenuItem(val fragmentFactory: () -> Fragment, val title: String, val icon: Drawable?)
 }

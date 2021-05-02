@@ -14,9 +14,9 @@ class ActivityLobby: AppCompatActivity() {
     
     private val bottomNavBuilder by lazy {
         BottomMenuBuilder()
-            .appendItem(fragment = FragmentHome.newInstance(), icon = getDrawable(R.drawable.ic_home), title = "home")
-            .appendItem(fragment = FragmentListItems.newInstance(), icon = getDrawable(R.drawable.ic_format_list), title = "List")
-            .appendItem(fragment = FragmentHistory.newInstance(), icon = getDrawable(R.drawable.ic_history), title = "Hist")
+            .appendItem(fragmentFactory = { FragmentHome.newInstance() }, icon = getDrawable(R.drawable.ic_home), title = "home")
+            .appendItem(fragmentFactory = { FragmentListItems.newInstance() }, icon = getDrawable(R.drawable.ic_format_list), title = "List")
+            .appendItem(fragmentFactory = { FragmentHistory.newInstance() }, icon = getDrawable(R.drawable.ic_history), title = "Hist")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

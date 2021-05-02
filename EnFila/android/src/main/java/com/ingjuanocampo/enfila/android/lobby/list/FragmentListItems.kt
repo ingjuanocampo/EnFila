@@ -18,21 +18,13 @@ import com.ingjuanocampo.enfila.android.utils.ViewTypes
 
 class FragmentListItems : Fragment() {
 
-    private lateinit var adapter: CompositeDelegateAdapter
-    val viewModel: ViewModelListItems by viewModels()
-
     companion object {
         fun newInstance() = FragmentListItems()
     }
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.load()
-        viewModel.state.observe(this, Observer {
-            adapter.addNewItems(it)
-        })
-    }
+    private lateinit var adapter: CompositeDelegateAdapter
+    val viewModel: ViewModelListItems by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +45,11 @@ class FragmentListItems : Fragment() {
         }
         recycler.addItemDecoration(DividerItemDecoration(requireContext(), OrientationHelper.VERTICAL))
         recycler.adapter = adapter
+        viewModel.state.observe(viewLifecycleOwner, Observer {
+            adapter.addNewItems(it)
+        })
+
+        viewModel.load()
 
     }
 }
