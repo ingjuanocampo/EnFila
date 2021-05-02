@@ -12,8 +12,12 @@ class BottomMenuBuilder {
 
     private val listOfItems = ArrayList<BottomMenuItem>()
 
-    fun appendItem(fragmentFactory: () -> Fragment, title: String, icon: Drawable?): BottomMenuBuilder {
+    private var defaultPost: Int = 0
+    fun appendItem(fragmentFactory: () -> Fragment, title: String, icon: Drawable?, default: Boolean = false): BottomMenuBuilder {
         listOfItems.add(BottomMenuItem(fragmentFactory, title, icon))
+        if (default) {
+            defaultPost = listOfItems.size - 1
+        }
         return this
     }
 
@@ -27,9 +31,9 @@ class BottomMenuBuilder {
                 icon = it.icon
             }
         }
-        attachFragment(listOfItems[1].fragmentFactory(), activity.supportFragmentManager)
-        activity.supportActionBar?.title = listOfItems[1].title
-        bottomNav.selectedItemId = 1
+        attachFragment(listOfItems[defaultPost].fragmentFactory(), activity.supportFragmentManager)
+        activity.supportActionBar?.title = listOfItems[defaultPost].title
+        bottomNav.selectedItemId = defaultPost
 
         bottomNav.setOnNavigationItemSelectedListener {
             val fragment = this.listOfItems[it.itemId].fragmentFactory()
