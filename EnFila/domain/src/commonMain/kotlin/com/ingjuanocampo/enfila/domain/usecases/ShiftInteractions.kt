@@ -13,9 +13,9 @@ class ShiftInteractions(val shiftRepository: ShiftRepository
                         , val clientRepository: Repository<List<Client>>) {
 
 
-    suspend fun next(current: Shift): ShiftWithClient? {
+    suspend fun next(current: Shift?): ShiftWithClient? {
 
-        updateShift(current, ShiftState.FINISHED)
+        current?.let { updateShift(it, ShiftState.FINISHED) }
         val closestShift = shiftRepository.getClosestShift().firstOrNull()
         closestShift?.state = ShiftState.CALLING
 

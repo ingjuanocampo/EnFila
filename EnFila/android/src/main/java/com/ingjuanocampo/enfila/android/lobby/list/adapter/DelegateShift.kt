@@ -14,11 +14,17 @@ class DelegateShift(parent: ViewGroup):
     private val currentTurn: TextView = itemView.findViewById(R.id.currentTurn)
     private val number: TextView = itemView.findViewById(R.id.number)
     private val name: TextView = itemView.findViewById(R.id.name)
+    private val state: TextView = itemView.findViewById(R.id.state)
+    private val timeElapsed: TextView = itemView.findViewById(R.id.timeElapse)
 
     override fun onBindViewHolder(recyclerViewType: RecyclerViewType) {
         val shiftItem = recyclerViewType as ShiftItem
         currentTurn.text = shiftItem.currentTurn
-        number.text = shiftItem.user?.phone
-        name.text = shiftItem.user?.name
+        number.text = shiftItem.phone
+        name.text = shiftItem.name
+        state.text = shiftItem.state
+        timeElapsed.text = shiftItem.getDiffTimeString()
+
+
     }
 }

@@ -13,7 +13,7 @@ data class ShiftItem(val id: Int,
                      val name: String,
                      val currentTurn: String,
                      val issueDate: Long,
-                     val user: UserItem? = null
+                     val state: String
 ): RecyclerViewType {
 
     fun getDiffTime(): Long {
@@ -21,6 +21,13 @@ data class ShiftItem(val id: Int,
         val elapsedTime = current - issueDate
         Log.d("Shift_Item", SimpleDateFormat("hh:mm").format(Date(elapsedTime)))
         return elapsedTime
+    }
+
+    fun getDiffTimeString(): String {
+        val simpleDateFormat = SimpleDateFormat("hh:mm")
+        return simpleDateFormat.format(Date().apply {
+            time = getDiffTime()
+        })
     }
 
     override fun getDelegateId(): Int = id

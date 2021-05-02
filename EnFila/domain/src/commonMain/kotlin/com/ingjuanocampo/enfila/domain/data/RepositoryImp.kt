@@ -6,6 +6,7 @@ import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.data.util.RateLimiter
 import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
@@ -47,7 +48,10 @@ open class RepositoryImp<Data>(
                 val dataToLocal = remoteSource.fetchData()
                 localSource.createOrUpdate(dataToLocal)
             }
-        }.flatMapConcat { localSource.getAllObserveData() }
+            localSource.getAllObserveData().collect {
+                emit(it)
+            }
+        }
     }
 
     override suspend fun getAllData(): Data {

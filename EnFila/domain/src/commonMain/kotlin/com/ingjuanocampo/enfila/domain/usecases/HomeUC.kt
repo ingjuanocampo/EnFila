@@ -26,8 +26,8 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
             // TODO This id should come from a session
             val currentCompany = companyRepo.getById("companyid").first()
             val home = Home(selectedCompany = currentCompany,
-                totalTurns = 200,
-                avrTime = 300)
+                totalTurns = 210,
+                avrTime = 306)
 
             homeCache = home
 
@@ -43,10 +43,9 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
         }
     }
 
-
     suspend fun next(): ShiftWithClient? {
-        return homeCache?.currentTurn?.let { shift ->
-           shiftInteractions.next(shift.shift)
+        return homeCache?.currentTurn.let { shift ->
+           shiftInteractions.next(shift?.shift)
         }
     }
 

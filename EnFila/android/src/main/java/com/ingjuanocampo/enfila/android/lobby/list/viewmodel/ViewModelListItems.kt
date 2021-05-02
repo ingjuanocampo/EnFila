@@ -22,14 +22,15 @@ class ViewModelListItems : ViewModel() {
                     ShiftItem(
                         id = it.shift.id?.toInt() ?: 0,
                         name = it.client.name ?: "",
-                        phone = it.client?.phone ?: "",
+                        phone = it.client.phone ?: "",
                         currentTurn = it.shift.number.toString(),
-                        issueDate = it.shift.date ?: 0L
+                        issueDate = it.shift.date ?: 0L,
+                        state = it.shift.state.name
                     )
                 }
 
             }.collect {
-                state.value = it
+                state.postValue(it)
             }
         }
     }

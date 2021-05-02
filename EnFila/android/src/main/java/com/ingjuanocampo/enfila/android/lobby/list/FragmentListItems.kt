@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.ingjuanocampo.cdapter.CompositeDelegateAdapter
 import com.ingjuanocampo.enfila.android.R
@@ -49,6 +51,7 @@ class FragmentListItems : Fragment() {
                 ViewTypes.SHIFT.ordinal
             ) { DelegateShift(it) }
         }
+        recycler.addItemDecoration(DividerItemDecoration(requireContext(), OrientationHelper.VERTICAL))
         recycler.adapter = adapter
 
     }
