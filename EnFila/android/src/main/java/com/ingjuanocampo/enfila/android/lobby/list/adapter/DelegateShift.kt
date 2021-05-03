@@ -1,12 +1,15 @@
 package com.ingjuanocampo.enfila.android.lobby.list.adapter
 
+import android.os.SystemClock
 import android.view.ViewGroup
+import android.widget.Chronometer
 import android.widget.TextView
 import com.ingjuanocampo.cdapter.DelegateViewHolder
 import com.ingjuanocampo.cdapter.RecyclerViewType
 import com.ingjuanocampo.enfila.android.R
 import com.ingjuanocampo.enfila.android.lobby.list.ShiftItem
 import com.ingjuanocampo.enfila.android.utils.inflate
+import java.util.concurrent.TimeUnit
 
 
 class DelegateShift(parent: ViewGroup):
@@ -15,7 +18,7 @@ class DelegateShift(parent: ViewGroup):
     private val number: TextView = itemView.findViewById(R.id.number)
     private val name: TextView = itemView.findViewById(R.id.name)
     private val state: TextView = itemView.findViewById(R.id.state)
-    private val timeElapsed: TextView = itemView.findViewById(R.id.timeElapse)
+    private val timeElapsed: Chronometer = itemView.findViewById(R.id.timeElapse)
 
     override fun onBindViewHolder(recyclerViewType: RecyclerViewType) {
         val shiftItem = recyclerViewType as ShiftItem
@@ -24,6 +27,8 @@ class DelegateShift(parent: ViewGroup):
         name.text = shiftItem.name
         state.text = shiftItem.state
         timeElapsed.text = shiftItem.getDiffTimeString()
+        timeElapsed.base = SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shiftItem.getDiffTime())
+        timeElapsed.start()
 
 
     }

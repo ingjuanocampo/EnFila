@@ -1,5 +1,6 @@
 package com.ingjuanocampo.enfila.domain.usecases.list
 
+import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
 import com.ingjuanocampo.enfila.domain.usecases.ShiftInteractions
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
@@ -13,7 +14,7 @@ class ListUC(
     fun loadActiveShift() = shiftRepository
         .getAllObserveData().map { shifts ->
             shifts.filter {
-                it.state == ShiftState.WAITING || it.state == ShiftState.CALLING
+                it.isActive()
             }.map {
                 shiftInteractions.loadShiftWithClient(it)
             }
@@ -30,4 +31,8 @@ class ListUC(
         }
 
 
+}
+
+fun Shift.isActive(): Boolean {
+    return this.state == ShiftState.WAITING || this.state == ShiftState.CALLING
 }

@@ -4,6 +4,7 @@ import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import com.ingjuanocampo.enfila.domain.entity.Client
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
+import com.ingjuanocampo.enfila.domain.usecases.list.isActive
 import com.ingjuanocampo.enfila.domain.usecases.model.Home
 import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
@@ -26,7 +27,7 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
             // TODO This id should come from a session
             val currentCompany = companyRepo.getById("companyid").first()
             val home = Home(selectedCompany = currentCompany,
-                totalTurns = 210,
+                totalTurns = shiftRepository.getAllData().filter { it.isActive() }.count(),
                 avrTime = 306)
 
             homeCache = home
@@ -36,6 +37,7 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
             shiftRepository.getCallingShift().collect { shift ->
                 shift?.let {
                     home.currentTurn = shiftInteractions.loadShiftWithClient(it)
+                    home.totalTurns = shiftRepository.getAllData().filter { it.isActive() }.count()
                     homeCache = home
                     emit(home)
                 }
