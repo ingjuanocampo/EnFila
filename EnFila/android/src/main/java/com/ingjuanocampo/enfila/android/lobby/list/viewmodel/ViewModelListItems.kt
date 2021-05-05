@@ -25,7 +25,8 @@ class ViewModelListItems : ViewModel() {
                         phone = it.client.phone ?: "",
                         currentTurn = it.shift.number.toString(),
                         issueDate = it.shift.date ?: 0L,
-                        state = it.shift.state.name
+                        state = it.shift.state.name,
+                        endDate = it.shift.endDate ?: 0L
                     )
                 }
 

@@ -6,6 +6,7 @@ import com.ingjuanocampo.enfila.android.utils.ViewTypes
 import com.ingjuanocampo.enfila.domain.entity.getNow
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 data class ShiftItem(val id: Int,
@@ -13,14 +14,19 @@ data class ShiftItem(val id: Int,
                      val name: String,
                      val currentTurn: String,
                      val issueDate: Long,
+                     val endDate: Long,
                      val state: String
 ): RecyclerViewType {
 
     fun getDiffTime(): Long {
         val current = getNow()
         val elapsedTime = current - issueDate
-        Log.d("Shift_Item", SimpleDateFormat("hh:mm").format(Date(elapsedTime)))
+        //Log.d("Shift_Item", SimpleDateFormat("hh:mm").format(Date(elapsedTime)))
         return elapsedTime
+    }
+
+    fun getStringEndDate(): String {
+        return SimpleDateFormat("hh:mm aa").format(Date(TimeUnit.SECONDS.toMillis(endDate)))
     }
 
     fun getDiffTimeString(): String {
