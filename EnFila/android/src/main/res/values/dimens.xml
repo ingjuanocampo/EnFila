@@ -19,4 +19,6 @@
 
     <dimen name="design_bottom_navigation_text_size" tools:override="true">11sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">11sp</dimen>
+    <dimen name="cornerRadius">10dp</dimen>
+    <dimen name="bottom_bar_height">500dp</dimen>
 </resources>

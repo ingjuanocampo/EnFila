@@ -1,5 +1,6 @@
 package com.ingjuanocampo.enfila.android.lobby.home
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.SystemClock
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.ingjuanocampo.enfila.android.R
+import com.ingjuanocampo.enfila.android.assignation.ActivityAssignation
+import com.ingjuanocampo.enfila.android.assignation.BottomSheetAssignation
 import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.HomeState
 import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.ViewModelHome
 import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
@@ -60,6 +63,14 @@ class FragmentHome : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.dashboard_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        BottomSheetAssignation().show(requireActivity().supportFragmentManager, "")
+
+        //startActivity(Intent(requireActivity(), ActivityAssignation::class.java))
+        return true
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -33,10 +33,25 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Text.Extra.Bold.Color2">
+        <item name="android:textColor">@color/colorText2</item>
+    </style>
+
     <style name="Text.Large.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 
 
+    <style name="Dialog_Transparent_Adjust_Resize" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent_black</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+
     <dimen name="text_extra">25sp</dimen>
+
+    <dimen name="text_extra_large">40sp</dimen>
+
 </resources>

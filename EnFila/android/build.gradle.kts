@@ -21,6 +21,20 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.ingjuanocampo:cda:1.0.2")
+
+    val nav_version = "2.3.5"
+
+    // Java language implementation
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
+
+    // Kotlin
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+
 }
 
 android {
