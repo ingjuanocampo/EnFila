@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/fragmentNumber"
-        android:name="com.ingjuanocampo.enfila.android.assignation.fragment.FragmentNumber"
+        android:name="com.ingjuanocampo.enfila.android.assignation.fragment.FragmentPhoneNumber"
         android:label="fragment_number"
-        tools:layout="@layout/fragment_number" >
+        tools:layout="@layout/fragment_phone_number" >
         <action
             android:id="@+id/action_fragmentNumber_to_fragmentNameAndNote"
             app:destination="@id/fragmentNameAndNote" />
@@ -18,23 +18,16 @@
         tools:layout="@layout/fragment_turn"
         android:id="@+id/fragmentTurn"
         android:name="com.ingjuanocampo.enfila.android.assignation.fragment.FragmentTurn"
-        android:label="FragmentTurn" >
-        <action
-            android:id="@+id/action_fragmentTurn_to_fragmentNameAndNote"
-            app:destination="@id/fragmentNameAndNote" />
-    </fragment>
+        android:label="FragmentTurn" />
 
 
     <fragment
         tools:layout="@layout/fragment_name_note"
         android:id="@+id/fragmentNameAndNote"
-        android:name="com.ingjuanocampo.enfila.android.assignation.fragment.FragmentTurn"
+        android:name="com.ingjuanocampo.enfila.android.assignation.fragment.FragmentNameNote"
         android:label="FragmentNameAndNote" >
         <action
             android:id="@+id/action_fragmentNameAndNote_to_fragmentTurn"
             app:destination="@id/fragmentTurn" />
-        <action
-            android:id="@+id/action_fragmentNameAndNote_to_fragmentNumber"
-            app:destination="@id/fragmentNumber" />
     </fragment>
 </navigation>

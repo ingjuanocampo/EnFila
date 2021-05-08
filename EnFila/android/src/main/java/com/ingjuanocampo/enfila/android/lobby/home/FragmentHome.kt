@@ -67,7 +67,10 @@ class FragmentHome : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        BottomSheetAssignation().show(requireActivity().supportFragmentManager, "")
+        BottomSheetAssignation().apply {
+            //dialog?.setCanceledOnTouchOutside(false)
+            //this.isCancelable = false
+        }.show(requireActivity().supportFragmentManager, "")
 
         //startActivity(Intent(requireActivity(), ActivityAssignation::class.java))
         return true

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import androidx.navigation.fragment.NavHostFragment
 import com.ingjuanocampo.enfila.android.R
 
@@ -12,7 +14,6 @@ import com.ingjuanocampo.enfila.android.R
 class FragmentNameNote : Fragment() {
 
     private val navController by lazy { NavHostFragment.findNavController(this) }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,19 @@ class FragmentNameNote : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_name_note, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val back = view.findViewById<ImageView>(R.id.back)
+        back.setOnClickListener {
+            navController.popBackStack()
+        }
+
+        val next = view.findViewById<ImageView>(R.id.next)
+        next.setOnClickListener {
+            navController.navigate(R.id.action_fragmentNameAndNote_to_fragmentTurn)
+        }
     }
 
     companion object {

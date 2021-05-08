@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import androidx.navigation.fragment.NavHostFragment
 import com.ingjuanocampo.enfila.android.R
 
@@ -21,6 +23,19 @@ class FragmentTurn : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_turn, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val back = view.findViewById<ImageView>(R.id.back)
+
+        back.setOnClickListener {
+            navController.popBackStack()
+        }
+
+        val next = view.findViewById<Button>(R.id.next)
+        next.setOnClickListener {
+        }
     }
 
     companion object {

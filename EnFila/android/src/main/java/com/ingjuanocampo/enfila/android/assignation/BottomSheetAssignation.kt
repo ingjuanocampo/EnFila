@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -30,6 +31,7 @@ class BottomSheetAssignation: BottomSheetDialogFragment() {
             BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!).state =
                 BottomSheetBehavior.STATE_EXPANDED
         }
+
         return dialog
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +49,9 @@ class BottomSheetAssignation: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
     }
 
 
