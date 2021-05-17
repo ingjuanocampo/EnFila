@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.ingjuanocampo.enfila.android.R
+import com.ingjuanocampo.enfila.android.assignation.viewmodel.ViewModelAssignation
 
 
 class FragmentNameNote : Fragment() {
 
     private val navController by lazy { NavHostFragment.findNavController(this) }
+    private val viewModel: ViewModelAssignation by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +36,18 @@ class FragmentNameNote : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val back = view.findViewById<ImageView>(R.id.back)
+        val nameEd = view.findViewById<EditText>(R.id.nameEd)
+
+        nameEd.addTextChangedListener {
+            viewModel.name = it.toString()
+        }
+
+        val noteEd = view.findViewById<EditText>(R.id.noteEd)
+
+        noteEd.addTextChangedListener {
+            viewModel.note = it.toString()
+        }
+
         back.setOnClickListener {
             navController.popBackStack()
         }

@@ -13,7 +13,6 @@ import com.ingjuanocampo.enfila.android.utils.inflate
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
 import java.util.concurrent.TimeUnit
 
-
 class DelegateShift(parent: ViewGroup):
     DelegateViewHolder(parent.inflate(R.layout.delegate_shift)) {
     private val currentTurn: TextView = itemView.findViewById(R.id.currentTurn)
@@ -29,12 +28,13 @@ class DelegateShift(parent: ViewGroup):
         number.text = shiftItem.phone
         name.text = shiftItem.name
         state.text = shiftItem.state
-        timeElapsed.text = shiftItem.getDiffTimeString()
-        timeElapsed.base = SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shiftItem.getDiffTime())
         if (shiftItem.state == ShiftState.CALLING.name || shiftItem.state == ShiftState.WAITING.name) {
+            timeElapsed.base = SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shiftItem.geElapsedTime())
             timeElapsed.start()
             endDate.visibility = View.GONE
         } else {
+            timeElapsed.base = SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shiftItem.geEndElapsedTime())
+
             timeElapsed.stop()
             endDate.text = shiftItem.getStringEndDate()
             endDate.visibility = View.VISIBLE

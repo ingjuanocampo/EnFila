@@ -1,6 +1,5 @@
 package com.ingjuanocampo.enfila.android.lobby.list
 
-import android.util.Log
 import com.ingjuanocampo.cdapter.RecyclerViewType
 import com.ingjuanocampo.enfila.android.utils.ViewTypes
 import com.ingjuanocampo.enfila.domain.entity.getNow
@@ -18,19 +17,21 @@ data class ShiftItem(val id: Int,
                      val state: String
 ): RecyclerViewType {
 
-    fun getDiffTime(): Long {
+    fun geElapsedTime(): Long {
         val current = getNow()
-        val elapsedTime = current - issueDate
-        //Log.d("Shift_Item", SimpleDateFormat("hh:mm").format(Date(elapsedTime)))
-        return elapsedTime
+        return current - issueDate
+    }
+
+    fun geEndElapsedTime(): Long {
+        return endDate - issueDate
     }
 
     fun getStringEndDate(): String {
         return SimpleDateFormat("hh:mm aa").format(Date(TimeUnit.SECONDS.toMillis(endDate)))
     }
 
-    fun getDiffTimeString(): String {
-        var diff = getDiffTime()
+    fun getTotalElapsedTime(): String {
+        var diff = geEndElapsedTime()
 
         val day = 60 * 60 * 24
         val hour = 60 * 60

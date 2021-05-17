@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Text"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_margin="@dimen/margin_medium"
         tools:text="Pepito">
 
         <TextView
@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             tools:text="Pepito"
             style="@style/Text.Large"
+            android:lines="1"
             android:id="@+id/notesTv"/>
 
     </LinearLayout>
@@ -69,7 +70,7 @@
         <EditText
             android:gravity="center"
             style="@style/Text.Extra.Bold"
-            android:id="@+id/phoneNumber"
+            android:id="@+id/turnEd"
             android:hint="Turno"
             android:digits="0123456789"
             android:inputType="number"

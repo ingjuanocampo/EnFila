@@ -32,6 +32,10 @@ class ShiftInteractions(val shiftRepository: ShiftRepository
             )
         }
     }
+    
+    suspend fun getClosestShiftTurn(): Int {
+        return shiftRepository.getClosestShift().firstOrNull()?.number ?: 1
+    }
 
     suspend fun updateShift(shift: Shift, state: ShiftState) {
         shift.state = state
