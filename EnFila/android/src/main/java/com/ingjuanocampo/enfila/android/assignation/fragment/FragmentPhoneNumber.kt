@@ -23,7 +23,7 @@ class FragmentPhoneNumber : Fragment() {
         fun newInstance() = FragmentPhoneNumber()
     }
 
-    private val viewModel: ViewModelAssignation by viewModels()
+    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = {requireActivity()})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,10 +41,12 @@ class FragmentPhoneNumber : Fragment() {
         next.isEnabled = false
 
         val phoneNumber = view.findViewById<EditText>(R.id.phoneNumber)
+        phoneNumber.setText(viewModel.phoneNumber)
 
         phoneNumber.addTextChangedListener {
             viewModel.phoneNumber = (it.toString())
         }
+
 
         viewModel.assignationState.observe(viewLifecycleOwner, Observer {
             if (it is AssignationState.NumberSet) {

@@ -18,14 +18,14 @@ class ViewModelAssignation : ViewModel() {
     var name: String = ""
         set(value) {
             if (value.isNotEmpty()) {
-                field = name
+                field = value
                 assignationState.value = AssignationState.NameAndNoteSet
             }
         }
     var note: String = ""
         set(value) {
             if (value.isNotEmpty()) {
-                field = note
+                field = value
                 assignationState.value = AssignationState.NameAndNoteSet
             }
         }

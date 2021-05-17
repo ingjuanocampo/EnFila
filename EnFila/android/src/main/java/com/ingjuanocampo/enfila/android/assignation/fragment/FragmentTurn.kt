@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
@@ -15,7 +16,8 @@ import com.ingjuanocampo.enfila.android.assignation.viewmodel.ViewModelAssignati
 
 class FragmentTurn : Fragment() {
     private val navController by lazy { NavHostFragment.findNavController(this) }
-    private val viewModel: ViewModelAssignation by viewModels()
+
+    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = {requireActivity()})
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +35,17 @@ class FragmentTurn : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val back = view.findViewById<ImageView>(R.id.back)
-        val nameTv = view.findViewById<TextView>(R.id.nameTv)
-        val phoneTv = view.findViewById<TextView>(R.id.phoneTv)
+        val nameTv = view.findViewById<TextView>(R.id.nameTv).apply {
+            setText(viewModel.name)
+        }
+        val phoneTv = view.findViewById<TextView>(R.id.phoneTv).apply {
+            setText(viewModel.phoneNumber)
+        }
         val notesTv = view.findViewById<TextView>(R.id.notesTv)
+            .apply {
+                setText(viewModel.note)
+            }
         val turnEd = view.findViewById<TextView>(R.id.turnEd)
-
 
         back.setOnClickListener {
             navController.popBackStack()

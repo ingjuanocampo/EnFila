@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
@@ -18,11 +17,11 @@ import com.ingjuanocampo.enfila.android.assignation.viewmodel.ViewModelAssignati
 class FragmentNameNote : Fragment() {
 
     private val navController by lazy { NavHostFragment.findNavController(this) }
-    private val viewModel: ViewModelAssignation by viewModels()
+
+    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = {requireActivity()})
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -36,22 +35,22 @@ class FragmentNameNote : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val back = view.findViewById<ImageView>(R.id.back)
-        val nameEd = view.findViewById<EditText>(R.id.nameEd)
-
-        nameEd.addTextChangedListener {
-            viewModel.name = it.toString()
+        val nameEd = view.findViewById<EditText>(R.id.nameEd).apply {
+            setText(viewModel.name)
+        }
+        val noteEd = view.findViewById<EditText>(R.id.noteEd).apply {
+            setText(viewModel.note)
         }
 
-        val noteEd = view.findViewById<EditText>(R.id.noteEd)
-
-        noteEd.addTextChangedListener {
-            viewModel.note = it.toString()
+        nameEd.addTextChangedListener { editable ->
+            viewModel.name = editable.toString()
         }
-
+        noteEd.addTextChangedListener { editable ->
+        viewModel.note = editable.toString()
+        }
         back.setOnClickListener {
             navController.popBackStack()
         }
-
         val next = view.findViewById<ImageView>(R.id.next)
         next.setOnClickListener {
             navController.navigate(R.id.action_fragmentNameAndNote_to_fragmentTurn)
@@ -59,7 +58,6 @@ class FragmentNameNote : Fragment() {
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance() =
             FragmentNameNote()
