@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.ingjuanocampo.enfila.android.R
@@ -21,7 +22,6 @@ class FragmentTurn : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -36,16 +36,22 @@ class FragmentTurn : Fragment() {
 
         val back = view.findViewById<ImageView>(R.id.back)
         val nameTv = view.findViewById<TextView>(R.id.nameTv).apply {
-            setText(viewModel.name)
+            text = viewModel.name
         }
         val phoneTv = view.findViewById<TextView>(R.id.phoneTv).apply {
-            setText(viewModel.phoneNumber)
+            text = viewModel.phoneNumber
         }
         val notesTv = view.findViewById<TextView>(R.id.notesTv)
             .apply {
-                setText(viewModel.note)
+                text = viewModel.note
             }
-        val turnEd = view.findViewById<TextView>(R.id.turnEd)
+        val turnEd = view.findViewById<TextView>(R.id.turnEd).apply {
+            setText("${viewModel.closestTurn}")
+        }
+
+        turnEd.addTextChangedListener { editable ->
+            viewModel.setTurn(editable.toString().toInt())
+        }
 
         back.setOnClickListener {
             navController.popBackStack()
@@ -53,11 +59,11 @@ class FragmentTurn : Fragment() {
 
         val next = view.findViewById<Button>(R.id.next)
         next.setOnClickListener {
+            viewModel.createAssignation()
         }
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             FragmentTurn()

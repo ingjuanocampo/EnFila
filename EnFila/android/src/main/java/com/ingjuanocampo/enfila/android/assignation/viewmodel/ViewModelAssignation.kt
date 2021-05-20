@@ -8,9 +8,16 @@ import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
 
 class ViewModelAssignation : ViewModel() {
 
+    var tunr: Int = 0
+
+    var closestTurn = 0
+
+    private val shiftInteractions = DomainModule.providesShiftInteractions()
+    val assignationState: MutableLiveData<AssignationState> = MutableLiveData(AssignationState.IDLE)
+
     var phoneNumber: String = ""
         set(value) {
-            if (value.isNotEmpty()) {
+            if (value.isNotEmpty() && value.count() == 10) {
                 field = value
                 assignationState.value = AssignationState.NumberSet
             }
@@ -29,14 +36,6 @@ class ViewModelAssignation : ViewModel() {
                 assignationState.value = AssignationState.NameAndNoteSet
             }
         }
-    var tunr: Int = 0
-
-
-    var closestTurn = 0
-
-    private val shiftInteractions = DomainModule.providesShiftInteractions()
-    val assignationState: MutableLiveData<AssignationState> = MutableLiveData(AssignationState.IDLE)
-
 
     init {
         calculateNextTurn()
@@ -44,7 +43,7 @@ class ViewModelAssignation : ViewModel() {
 
     private fun calculateNextTurn() {
         viewModelScope.launchGeneral {
-            closestTurn = shiftInteractions.getClosestShiftTurn() + 1
+            closestTurn = shiftInteractions.getClosestNewShiftTurn()
             tunr = closestTurn
         }
     }
@@ -58,6 +57,9 @@ class ViewModelAssignation : ViewModel() {
     }
 
     fun createAssignation() {
-
+        viewModelScope.launchGeneral {
+            shiftInteractions.addNewTurn(tunr, phoneNumber, name, note)
+        }
     }
+
 }

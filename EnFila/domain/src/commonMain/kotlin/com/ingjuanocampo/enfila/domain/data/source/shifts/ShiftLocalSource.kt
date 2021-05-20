@@ -7,5 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface ShiftLocalSource: LocalSource<List<Shift>> {
     fun getClosestShift(): Flow<Shift?>
 
+    fun getLastShift(): Flow<Shift?>
+
     fun getCallingShift(): Flow<Shift?>
 }

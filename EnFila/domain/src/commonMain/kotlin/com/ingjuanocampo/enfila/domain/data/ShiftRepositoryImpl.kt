@@ -16,6 +16,10 @@ class ShiftRepositoryImpl(
         return localSource.getClosestShift()
     }
 
+    override fun getLastShift(): Flow<Shift?> {
+        return localSource.getLastShift()
+    }
+
     override fun getCallingShift(): Flow<Shift?> {
         return localSource.getCallingShift()
     }

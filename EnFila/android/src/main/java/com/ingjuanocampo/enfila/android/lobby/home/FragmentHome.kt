@@ -113,7 +113,7 @@ class FragmentHome : Fragment() {
     private fun updateShift(shift: ShiftWithClient?) {
         shift?.let {
             clientName?.text = shift.client.name
-            clientPhone?.text = shift.client.phone
+            clientPhone?.text = shift.client.id
             waitTime?.text = "${shift.shift.date}"
             waitTime?.base = SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shift.shift.getDiffTime())
             waitTime?.start()

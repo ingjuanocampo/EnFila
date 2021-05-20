@@ -12,11 +12,11 @@ import kotlinx.coroutines.launch
 
 // Constant mock data
 private val list = arrayListOf(
-    ShiftFactory.createWaiting(1, "1", "Fast please"),
-    ShiftFactory.createWaiting(2, "2", "Fast please"),
-    ShiftFactory.createWaiting(3, "3", "Fast please"),
-    ShiftFactory.createWaiting(4, "4", "Fast please"),
-    ShiftFactory.createWaiting(5, "5", "Fast please")
+    ShiftFactory.createWaiting(1, "3137550991", "Fast please"),
+    ShiftFactory.createWaiting(2, "3137550992", "Fast please"),
+    ShiftFactory.createWaiting(3, "3137550993", "Fast please"),
+    ShiftFactory.createWaiting(4, "3137550994", "Fast please"),
+    ShiftFactory.createWaiting(5, "3137550995", "Fast please")
 )
 
 class ShiftsMockSource : ShiftLocalSource {
@@ -35,13 +35,17 @@ class ShiftsMockSource : ShiftLocalSource {
         }
     }
 
+    override fun getLastShift(): Flow<Shift?> {
+        return flow {
+            emit(list.lastOrNull())
+        }
+    }
+
     override fun getCallingShift(): Flow<Shift?> {
         return flow.map { list ->
              list?.firstOrNull { it.state == ShiftState.CALLING }
         }
-
     }
-
 
     override suspend fun createOrUpdate(data: List<Shift>) {
         data.forEach {

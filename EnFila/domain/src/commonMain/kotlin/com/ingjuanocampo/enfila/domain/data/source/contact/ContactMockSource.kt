@@ -8,29 +8,24 @@ import kotlinx.coroutines.flow.flow
 
 val list = arrayListOf(
     Client(
-        id = "1",
+        id = "3137550991",
         name = "Topacio",
-        phone = "12135550993"
     ),
     Client(
-        id = "2",
+        id = "3137550992",
         name = "Julia",
-        phone = "3135123550993"
     ),
     Client(
-        id = "3",
+        id = "3137550993",
         name = "Jose",
-        phone = "31315550993"
     ),
     Client(
-        id = "4",
+        id = "3137550994",
         name = "Benito",
-        phone = "3335550993"
     ),
     Client(
-        id = "5",
+        id = "3137550995",
         name = "Sofitronica",
-        phone = "3135552133"
     )
 
 
@@ -38,7 +33,11 @@ val list = arrayListOf(
 
 class ContactMockSource : LocalSource<List<Client>> {
     override suspend fun createOrUpdate(data: List<Client>) {
-        list.addAll(data)
+        data.forEach { newClient ->
+            if (list.firstOrNull { it.id == newClient.id } == null) {
+                list.add(newClient)
+            }
+        }
     }
 
     override suspend fun getData(repoInfo: RepoInfo?): List<Client> {

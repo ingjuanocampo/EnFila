@@ -25,9 +25,9 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
     fun load(): Flow<Home> {
         return flow {
             // TODO This id should come from a session
-            val currentCompany = companyRepo.getById("companyid").first()
+            val currentCompany = companyRepo.getById("companyid")!!.first()
             val home = Home(selectedCompany = currentCompany,
-                totalTurns = shiftRepository.getAllData().filter { it.isActive() }.count(),
+                totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count(),
                 avrTime = 306)
 
             homeCache = home
@@ -37,7 +37,7 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
             shiftRepository.getCallingShift().collect { shift ->
                 shift?.let {
                     home.currentTurn = shiftInteractions.loadShiftWithClient(it)
-                    home.totalTurns = shiftRepository.getAllData().filter { it.isActive() }.count()
+                    home.totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count()
                     homeCache = home
                     emit(home)
                 }

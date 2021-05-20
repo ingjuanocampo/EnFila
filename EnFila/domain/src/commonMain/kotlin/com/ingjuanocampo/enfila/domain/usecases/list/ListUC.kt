@@ -13,7 +13,7 @@ class ListUC(
 
     fun loadActiveShift() = shiftRepository
         .getAllObserveData().map { shifts ->
-            shifts.filter {
+            shifts!!.filter {
                 it.isActive()
             }.map {
                 shiftInteractions.loadShiftWithClient(it)
@@ -23,7 +23,7 @@ class ListUC(
 
     fun loadInactiveShift() = shiftRepository
         .getAllObserveData().map { shifts ->
-            shifts.filter {
+            shifts!!.filter {
                 it.state != ShiftState.WAITING && it.state != ShiftState.CALLING
             }.map {
                 shiftInteractions.loadShiftWithClient(it)
