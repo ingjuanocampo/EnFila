@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("kotlin-android")
+    id("com.google.gms.google-services")
 }
 
 group = "com.ingjuanocampo.enfila"
@@ -21,6 +22,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.ingjuanocampo:cda:1.0.2")
+    implementation("com.google.firebase:firebase-bom:28.0.1")
+    implementation("com.google.firebase:firebase-auth:20.0.4")
 
     val nav_version = "2.3.5"
 

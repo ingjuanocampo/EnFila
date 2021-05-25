@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ingjuanocampo.enfila.android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="false"
         android:supportsRtl="true"
@@ -15,7 +17,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:label="@string/title_activity_lobby"/>
         <activity
-            android:name=".ActivityLogin"
+            android:name=".login.ActivityLogin"
             android:label="Activity login"/>
         <activity android:name=".splash.SplashActivity"
             android:theme="@style/AppTheme.NoTitle"
