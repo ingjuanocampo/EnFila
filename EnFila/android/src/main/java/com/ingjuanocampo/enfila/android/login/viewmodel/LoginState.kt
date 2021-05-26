@@ -6,5 +6,6 @@ sealed class LoginState {
     object NumberSet: LoginState()
     object ToVerifyCode: LoginState()
     object Authenticated: LoginState()
+    object NewAccount: LoginState()
     data class AuthError(val e: Exception): LoginState()
 }

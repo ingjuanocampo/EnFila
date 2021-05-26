@@ -7,7 +7,7 @@ import com.ingjuanocampo.enfila.domain.entity.CompanySite
 class CompanySiteRemoteSource: RemoteSource<List<CompanySite>> {
 
 
-    override fun fetchData(): List<CompanySite> {
+    override fun fetchData(id: String): List<CompanySite> {
         return emptyList()
     }
 

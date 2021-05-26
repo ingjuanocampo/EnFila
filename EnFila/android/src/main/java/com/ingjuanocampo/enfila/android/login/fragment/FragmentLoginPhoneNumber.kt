@@ -51,6 +51,7 @@ class FragmentLoginPhoneNumber: Fragment() {
                 LoginState.Authenticated -> Log.d("Login", "Authenticated")
                 is LoginState.AuthError -> Log.e("Login", it.e.toString())
                 LoginState.NumberSet -> doVerificationButton.isEnabled = true
+                LoginState.NewAccount -> Log.d("Login", "Create new account required")
             }
         })
 

@@ -6,7 +6,7 @@ import com.ingjuanocampo.enfila.domain.entity.Client
 class ContactRemoteSource: RemoteSource<List<Client>> {
 
 
-    override fun fetchData(): List<Client> {
+    override fun fetchData(id: String): List<Client> {
         return emptyList()
     }
 

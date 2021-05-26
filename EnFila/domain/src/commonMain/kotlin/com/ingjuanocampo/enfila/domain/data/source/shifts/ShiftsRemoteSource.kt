@@ -6,8 +6,7 @@ import com.ingjuanocampo.enfila.domain.entity.Shift
 
 class ShiftsRemoteSource: RemoteSource<List<Shift>> {
 
-
-    override fun fetchData(): List<Shift> {
+    override fun fetchData(id: String): List<Shift> {
         return emptyList()
     }
 
