@@ -1,7 +1,6 @@
 package com.ingjuanocampo.enfila.domain.data.source.contact
 
 import com.ingjuanocampo.enfila.domain.data.source.LocalSource
-import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.entity.Client
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -40,13 +39,6 @@ class ContactMockSource : LocalSource<List<Client>> {
         }
     }
 
-    override suspend fun getData(repoInfo: RepoInfo?): List<Client> {
-        return list
-    }
-
-    override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<Client>> {
-        return flow { emit(list) }
-    }
 
     override suspend fun delete(dataToDelete: List<Client>) {
         list.remove(dataToDelete)

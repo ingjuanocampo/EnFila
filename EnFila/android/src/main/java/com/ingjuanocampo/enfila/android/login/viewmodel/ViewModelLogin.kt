@@ -9,8 +9,10 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 class ViewModelLogin : ViewModel() {
@@ -33,7 +35,7 @@ class ViewModelLogin : ViewModel() {
 
     private val auth by lazy { FirebaseAuth.getInstance() }
 
-    private val authCallbacks = object: PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private val authCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(credential: PhoneAuthCredential) {
             signInWithPhoneAuthCredential(credential)
         }
@@ -42,7 +44,10 @@ class ViewModelLogin : ViewModel() {
             state.value = LoginState.AuthError(p0)
         }
 
-        override fun onCodeSent(_verificationId: String, token: PhoneAuthProvider.ForceResendingToken) {
+        override fun onCodeSent(
+            _verificationId: String,
+            token: PhoneAuthProvider.ForceResendingToken
+        ) {
             super.onCodeSent(_verificationId, token)
             verificationId = _verificationId
             state.value = LoginState.ToVerifyCode
@@ -63,20 +68,22 @@ class ViewModelLogin : ViewModel() {
 
             val user = task.result?.user
             if (user != null) {
-                if (signUC.invoke(user.uid)) {
-                    state.value = LoginState.Authenticated
-                } else {
-                    state.value = LoginState.NewAccount
+                signUC(user.uid).shareIn(viewModelScope, SharingStarted.Lazily).collect {
+                    if (it) {
+                        state.postValue(LoginState.Authenticated)
+                    } else {
+                        state.postValue(LoginState.NewAccount)
+                    }
                 }
             } else {
-                state.value = LoginState.AuthError(task.exception?: Exception("No login"))
+                state.postValue(LoginState.AuthError(task.exception ?: Exception("No login")))
             }
         } else {
 
             if (task.exception is FirebaseAuthInvalidCredentialsException) {
                 // The verification code entered was invalid
             }
-            state.value = LoginState.AuthError(task.exception?: Exception("No login"))
+            state.postValue(LoginState.AuthError(task.exception ?: Exception("No login")))
             // Update UI
         }
     }
@@ -85,7 +92,7 @@ class ViewModelLogin : ViewModel() {
         this.activity = activity
         viewModelScope.launch {
             val options = PhoneAuthOptions.newBuilder(auth)
-                .setPhoneNumber("+57$phoneNumber")       // Phone number to verify
+                .setPhoneNumber("+57$phoneNumber") ///.setPhoneNumber("+16505553434")//      // Phone number to verify
                 .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
                 .setActivity(activity)                 // Activity (for callback binding)
                 .setCallbacks(authCallbacks)          // OnVerificationStateChangedCallbacks

@@ -1,6 +1,5 @@
 package com.ingjuanocampo.enfila.domain.usecases
 
-import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.entity.*
 import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository

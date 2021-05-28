@@ -1,12 +1,14 @@
 package com.ingjuanocampo.enfila.domain.data.source.shifts.mock
 
-import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftLocalSource
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftFactory
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
@@ -31,7 +33,7 @@ class ShiftsMockSource : ShiftLocalSource {
 
     override fun getClosestShift(): Flow<Shift?> {
         return flow.map { list ->
-            list?.firstOrNull { it.state == ShiftState.WAITING }
+            list.firstOrNull { it.state == ShiftState.WAITING }
         }
     }
 
@@ -43,7 +45,7 @@ class ShiftsMockSource : ShiftLocalSource {
 
     override fun getCallingShift(): Flow<Shift?> {
         return flow.map { list ->
-             list?.firstOrNull { it.state == ShiftState.CALLING }
+            list.firstOrNull { it.state == ShiftState.CALLING }
         }
     }
 
@@ -56,14 +58,6 @@ class ShiftsMockSource : ShiftLocalSource {
             } else list.add(it)
         }
         flow.emit(list)
-    }
-
-    override suspend fun getData(repoInfo: RepoInfo?): List<Shift> {
-        return list
-    }
-
-    override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<Shift>> {
-        return flow
     }
 
     override suspend fun delete(dataToDelete: List<Shift>) {

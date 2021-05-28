@@ -1,6 +1,5 @@
 package com.ingjuanocampo.enfila.domain.usecases.repository.base
 
-import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 import kotlinx.coroutines.flow.Flow
 
 interface Repository<Data> {

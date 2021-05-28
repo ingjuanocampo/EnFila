@@ -1,7 +1,6 @@
 package com.ingjuanocampo.enfila.domain.data.source.companysite
 
 import com.ingjuanocampo.enfila.domain.data.source.LocalSource
-import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,13 +16,6 @@ class CompanySiteMockSource: LocalSource<List<CompanySite>> {
         list.addAll(data)
     }
 
-    override suspend fun getData(repoInfo: RepoInfo?): List<CompanySite> {
-        return list
-    }
-
-    override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<CompanySite>> {
-        return flow { emit(list) }
-    }
 
     override suspend fun delete(dataToDelete: List<CompanySite>) {
         list.remove(dataToDelete)

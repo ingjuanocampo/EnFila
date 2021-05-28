@@ -23,9 +23,9 @@ open class RepositoryImp<Data>(
         localSource.createOrUpdate(data)
     }
 
-    override suspend fun refresh(): Data {
+    override suspend fun refresh(): Data? {
         val data = remoteSource.fetchData(id)
-        localSource.createOrUpdate(data)
+        data?.let { localSource.createOrUpdate(it) }
         return data
     }
 
@@ -47,7 +47,9 @@ open class RepositoryImp<Data>(
             }
             if (shouldFetch(initialData)) {
                 val dataToLocal = remoteSource.fetchData(id)
-                localSource.createOrUpdate(dataToLocal)
+                if (dataToLocal != null) {
+                    localSource.createOrUpdate(dataToLocal)
+                }
             }
             localSource.getAllObserveData().collect {
                 emit(it)
