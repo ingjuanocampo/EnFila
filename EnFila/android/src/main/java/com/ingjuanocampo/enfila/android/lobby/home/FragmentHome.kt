@@ -1,17 +1,23 @@
 package com.ingjuanocampo.enfila.android.lobby.home
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.*
+import android.widget.Chronometer
 import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.ingjuanocampo.enfila.android.R
+import com.ingjuanocampo.enfila.android.assignation.ActivityAssignation
+import com.ingjuanocampo.enfila.android.assignation.BottomSheetAssignation
 import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.HomeState
 import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.ViewModelHome
 import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
+import java.util.concurrent.TimeUnit
 
 class FragmentHome : Fragment() {
 
@@ -23,7 +29,7 @@ class FragmentHome : Fragment() {
     private var currentNumber: TextView? = null
     private var clientName: TextView? = null
     private var clientPhone: TextView? = null
-    private var waitTime: TextView? = null
+    private var waitTime: Chronometer? = null
     private var totalInline: TextView? = null
     private var totalAverageTime: TextView? = null
 
@@ -48,7 +54,7 @@ class FragmentHome : Fragment() {
         currentNumber = view.findViewById<TextView>(R.id.currentNumber)
         clientName = view.findViewById<TextView>(R.id.clientName)
         clientPhone = view.findViewById<TextView>(R.id.clientPhone)
-        waitTime = view.findViewById<TextView>(R.id.waitTime)
+        waitTime = view.findViewById<Chronometer>(R.id.waitTime)
         totalInline = view.findViewById<TextView>(R.id.totalInline)
         totalAverageTime = view.findViewById<TextView>(R.id.totalAverageTime)
 
@@ -57,6 +63,17 @@ class FragmentHome : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.dashboard_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        BottomSheetAssignation().apply {
+            //dialog?.setCanceledOnTouchOutside(false)
+            //this.isCancelable = false
+        }.show(requireActivity().supportFragmentManager, "")
+
+        //startActivity(Intent(requireActivity(), ActivityAssignation::class.java))
+        return true
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -76,7 +93,7 @@ class FragmentHome : Fragment() {
                     updateShift(it.shift)
                 }
                 is HomeState.HomeLoaded -> {
-                    toolbar?.title = it.home.selectedCompany.name
+                    (requireActivity() as AppCompatActivity).supportActionBar?.title = it.home.selectedCompany.name
                     totalInline?.text = it.home.totalTurns.toString()
                     totalAverageTime?.text = it.home.avrTime.toString()
                     updateShift(it.home.currentTurn)
@@ -96,8 +113,10 @@ class FragmentHome : Fragment() {
     private fun updateShift(shift: ShiftWithClient?) {
         shift?.let {
             clientName?.text = shift.client.name
-            clientPhone?.text = shift.client.phone
+            clientPhone?.text = shift.client.id
             waitTime?.text = "${shift.shift.date}"
+            waitTime?.base = SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shift.shift.getDiffTime())
+            waitTime?.start()
             currentNumber?.text = "${shift.shift.number}"
         } ?: setEmpty()
     }

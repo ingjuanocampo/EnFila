@@ -9,7 +9,7 @@ val handler = CoroutineExceptionHandler { _, exception ->
 }
 
 fun CoroutineScope.launchGeneral(function: suspend () -> Unit) {
-    launch(context = handler) {
+    launch(handler + Dispatchers.Default) {
         withContext(Dispatchers.Default) {
             function()
         }

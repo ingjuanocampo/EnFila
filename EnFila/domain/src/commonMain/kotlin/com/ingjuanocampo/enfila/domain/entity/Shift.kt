@@ -4,13 +4,14 @@ import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 import kotlinx.datetime.Clock
 
 class Shift internal constructor(
-    val date: Long?,
+    val date: Long,
     val id: String? = EMPTY_STRING,
     val parentCompanySite: String,
     var number: Int = 0,
     val contactId: String,
     val notes: String?,
-    var state: ShiftState
+    var state: ShiftState,
+    var endDate: Long? = null
 ) : Comparable<Shift> {
 
     override fun compareTo(other: Shift): Int {
@@ -21,6 +22,10 @@ class Shift internal constructor(
         return numberCompare
     }
 
+    fun getDiffTime(): Long {
+        val current = getNow()
+        return current - date
+    }
 }
 
 
@@ -31,7 +36,7 @@ object ShiftFactory {
     fun createWaiting(number: Int,
                       contactId: String,
                       notes: String): Shift {
-        val instantNow = Clock.System.now().epochSeconds
+        val instantNow = getNow()
         return Shift(
             date = instantNow,
             id = instantNow.toString(),
@@ -42,4 +47,8 @@ object ShiftFactory {
             state = ShiftState.WAITING
         )
     }
+}
+
+fun getNow(): Long {
+    return Clock.System.now().epochSeconds
 }

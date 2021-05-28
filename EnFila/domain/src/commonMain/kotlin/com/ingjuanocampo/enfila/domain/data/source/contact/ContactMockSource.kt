@@ -2,66 +2,65 @@ package com.ingjuanocampo.enfila.domain.data.source.contact
 
 import com.ingjuanocampo.enfila.domain.data.source.LocalSource
 import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
-import com.ingjuanocampo.enfila.domain.entity.Contact
+import com.ingjuanocampo.enfila.domain.entity.Client
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 val list = arrayListOf(
-    Contact(
-        id = "1",
+    Client(
+        id = "3137550991",
         name = "Topacio",
-        phone = "12135550993"
     ),
-    Contact(
-        id = "2",
+    Client(
+        id = "3137550992",
         name = "Julia",
-        phone = "3135123550993"
     ),
-    Contact(
-        id = "3",
+    Client(
+        id = "3137550993",
         name = "Jose",
-        phone = "31315550993"
     ),
-    Contact(
-        id = "4",
+    Client(
+        id = "3137550994",
         name = "Benito",
-        phone = "3335550993"
     ),
-    Contact(
-        id = "5",
+    Client(
+        id = "3137550995",
         name = "Sofitronica",
-        phone = "3135552133"
     )
 
 
 )
 
-class ContactMockSource : LocalSource<List<Contact>> {
-    override suspend fun createOrUpdate(data: List<Contact>) {
-        list.addAll(data)
+class ContactMockSource : LocalSource<List<Client>> {
+    override suspend fun createOrUpdate(data: List<Client>) {
+        data.forEach { newClient ->
+            if (list.firstOrNull { it.id == newClient.id } == null) {
+                list.add(newClient)
+            }
+        }
     }
 
-    override suspend fun getData(repoInfo: RepoInfo?): List<Contact> {
+    override suspend fun getData(repoInfo: RepoInfo?): List<Client> {
         return list
     }
 
-    override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<Contact>> {
+    override fun getDataAndObserve(repoInfo: RepoInfo?): Flow<List<Client>> {
         return flow { emit(list) }
     }
 
-    override suspend fun delete(dataToDelete: List<Contact>) {
+    override suspend fun delete(dataToDelete: List<Client>) {
         list.remove(dataToDelete)
     }
 
-    override fun getAllObserveData(): Flow<List<Contact>> {
+    override fun getAllObserveData(): Flow<List<Client>> {
         return flow { emit(list) }
     }
 
-    override suspend fun getAllData(): List<Contact> {
+    override suspend fun getAllData(): List<Client> {
         return list
     }
 
-    override suspend fun getById(id: String): List<Contact> {
+    override suspend fun getById(id: String): List<Client> {
         return list.filter { it.id == id }
     }
 

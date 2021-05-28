@@ -1,6 +1,8 @@
 package com.ingjuanocampo.enfila.android.menu
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -10,12 +12,17 @@ class BottomMenuBuilder {
 
     private val listOfItems = ArrayList<BottomMenuItem>()
 
-    fun appendItem(fragment: Fragment, title: String, icon: Drawable?): BottomMenuBuilder {
-        listOfItems.add(BottomMenuItem(fragment, title, icon))
+    private var defaultPost: Int = 0
+    fun appendItem(fragmentFactory: () -> Fragment, title: String, icon: Drawable?, default: Boolean = false): BottomMenuBuilder {
+        listOfItems.add(BottomMenuItem(fragmentFactory, title, icon))
+        if (default) {
+            defaultPost = listOfItems.size - 1
+        }
         return this
     }
 
-    fun attachMenu(bottomNav: BottomNavigationView, supportFragment: FragmentManager) {
+    @SuppressLint("ResourceType")
+    fun attachMenu(bottomNav: BottomNavigationView, activity: AppCompatActivity) {
         bottomNav.inflateMenu(R.menu.bottom_navigation_menu)
         bottomNav.menu.clear()
         listOfItems.forEach {
@@ -24,11 +31,15 @@ class BottomMenuBuilder {
                 icon = it.icon
             }
         }
-        attachFragment(listOfItems[0].fragment, supportFragment)
+        attachFragment(listOfItems[defaultPost].fragmentFactory(), activity.supportFragmentManager)
+        activity.supportActionBar?.title = listOfItems[defaultPost].title
+        bottomNav.selectedItemId = defaultPost
 
         bottomNav.setOnNavigationItemSelectedListener {
-            val fragment = this.listOfItems[it.itemId].fragment
-            attachFragment(fragment, supportFragment)
+            val fragment = this.listOfItems[it.itemId].fragmentFactory()
+            activity.supportActionBar?.title = listOfItems[it.itemId].title
+
+            attachFragment(fragment, activity.supportFragmentManager)
             true
         }
     }
@@ -41,5 +52,5 @@ class BottomMenuBuilder {
     }
 
 
-    internal class BottomMenuItem(val fragment: Fragment, val title: String, val icon: Drawable?)
+    internal class BottomMenuItem(val fragmentFactory: () -> Fragment, val title: String, val icon: Drawable?)
 }

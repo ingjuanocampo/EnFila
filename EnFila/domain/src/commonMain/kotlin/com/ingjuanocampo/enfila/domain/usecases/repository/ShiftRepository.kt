@@ -8,5 +8,7 @@ interface ShiftRepository: Repository<List<Shift>> {
 
     fun getClosestShift(): Flow<Shift?>
 
+    fun getLastShift(): Flow<Shift?>
+
     fun getCallingShift(): Flow<Shift?>
 }

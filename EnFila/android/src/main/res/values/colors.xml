@@ -13,6 +13,7 @@
     <color name="colorText1">#FFFFFF</color>
     <color name="colorText2">#FDBE82</color>
     <color name="colorText3">#DEEADE</color>
+    <color name="colorText4">#f43b53</color>
 
     <color name="selectedButton">#ff3d00</color>
     <color name="unSelectedButton">#FFFFFF</color>
@@ -25,6 +26,7 @@
     <color name="secondaryDarkColor">#c43e00</color>
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#546e7a</color>
+    <color name="transparent_black">#80000000</color>
 
 
 </resources>

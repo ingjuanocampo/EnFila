@@ -6,6 +6,7 @@ import com.ingjuanocampo.enfila.domain.data.source.RepoInfo
 import com.ingjuanocampo.enfila.domain.data.util.RateLimiter
 import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
@@ -39,22 +40,27 @@ open class RepositoryImp<Data>(
         localSource.delete(dataToDelete)
     }
 
-    override fun getAllObserveData(): Flow<Data> {
+    override fun getAllObserveData(): Flow<Data?> {
         return flow {
             val initialData = localSource.getAllData()
-            emit(initialData) // First value from Local
+            if (initialData != null) {
+                emit(initialData) // First value from Local
+            }
             if (shouldFetch(initialData)) {
                 val dataToLocal = remoteSource.fetchData()
                 localSource.createOrUpdate(dataToLocal)
             }
-        }.flatMapConcat { localSource.getAllObserveData() }
+            localSource.getAllObserveData().collect {
+                emit(it)
+            }
+        }
     }
 
-    override suspend fun getAllData(): Data {
+    override suspend fun getAllData(): Data? {
         return localSource.getAllData()
     }
 
-    override suspend fun getById(id: String): Data {
+    override suspend fun getById(id: String): Data? {
         return localSource.getById(id)
     }
 

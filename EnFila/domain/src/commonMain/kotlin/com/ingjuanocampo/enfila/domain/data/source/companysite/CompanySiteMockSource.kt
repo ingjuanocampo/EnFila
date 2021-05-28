@@ -13,7 +13,6 @@ val list = arrayListOf(CompanySite(
 
 class CompanySiteMockSource: LocalSource<List<CompanySite>> {
 
-
     override suspend fun createOrUpdate(data: List<CompanySite>) {
         list.addAll(data)
     }
