@@ -9,7 +9,7 @@ class ShiftsRemoteSource: RemoteSource<List<Shift>> {
         return emptyList()
     }
 
-    override suspend fun updateData(data: List<Shift>) {
+    override suspend fun createOrUpdate(data: List<Shift>) {
     }
 
 

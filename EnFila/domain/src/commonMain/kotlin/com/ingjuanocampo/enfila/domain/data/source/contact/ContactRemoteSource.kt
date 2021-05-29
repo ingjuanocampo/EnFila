@@ -10,6 +10,6 @@ class ContactRemoteSource: RemoteSource<List<Client>> {
         return emptyList()
     }
 
-    override suspend fun updateData(data: List<Client>) {
+    override suspend fun createOrUpdate(data: List<Client>) {
     }
 }

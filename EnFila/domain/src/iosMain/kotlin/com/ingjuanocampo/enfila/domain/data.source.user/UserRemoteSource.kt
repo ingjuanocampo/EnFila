@@ -8,8 +8,8 @@ actual class UserRemoteSource actual constructor(){
         TODO()
     }
 
-    actual  fun updateData(data: User) {
-
+    actual  fun updateData(data: User): Flow<User?> {
+        TODO()
     }
 
 }

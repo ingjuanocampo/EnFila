@@ -9,7 +9,7 @@ class CompanySiteRemoteSource: RemoteSource<List<CompanySite>> {
         return emptyList()
     }
 
-    override suspend fun updateData(data: List<CompanySite>) {
+    override suspend fun createOrUpdate(data: List<CompanySite>) {
         TODO("Not yet implemented")
     }
 }

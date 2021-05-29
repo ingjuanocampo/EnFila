@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
+import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.shareIn
@@ -32,7 +33,6 @@ class ViewModelLogin : ViewModel() {
             }
         }
 
-
     private val auth by lazy { FirebaseAuth.getInstance() }
 
     private val authCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -41,7 +41,7 @@ class ViewModelLogin : ViewModel() {
         }
 
         override fun onVerificationFailed(p0: FirebaseException) {
-            state.value = LoginState.AuthError(p0)
+            state.value = LoginState.AuthenticationProcessState(AuthState.AuthError(p0))
         }
 
         override fun onCodeSent(
@@ -69,21 +69,17 @@ class ViewModelLogin : ViewModel() {
             val user = task.result?.user
             if (user != null) {
                 signUC(user.uid).shareIn(viewModelScope, SharingStarted.Lazily).collect {
-                    if (it) {
-                        state.postValue(LoginState.Authenticated)
-                    } else {
-                        state.postValue(LoginState.NewAccount)
-                    }
+                    state.postValue(LoginState.AuthenticationProcessState(it))
                 }
             } else {
-                state.postValue(LoginState.AuthError(task.exception ?: Exception("No login")))
+                state.postValue(LoginState.AuthenticationProcessState(AuthState.AuthError(task.exception ?: Exception("No login"))))
             }
         } else {
 
             if (task.exception is FirebaseAuthInvalidCredentialsException) {
                 // The verification code entered was invalid
             }
-            state.postValue(LoginState.AuthError(task.exception ?: Exception("No login")))
+            state.postValue(LoginState.AuthenticationProcessState(AuthState.AuthError(task.exception ?: Exception("No login"))))
             // Update UI
         }
     }
