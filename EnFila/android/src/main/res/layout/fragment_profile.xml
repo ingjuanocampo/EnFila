@@ -22,6 +22,7 @@
         <EditText
             android:id="@+id/phoneNumber"
             style="@style/Text.Bold"
+            android:editable="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/Telefono"
@@ -78,6 +79,7 @@
 
 
     <Button
+        android:id="@+id/createOrUpdateBt"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
