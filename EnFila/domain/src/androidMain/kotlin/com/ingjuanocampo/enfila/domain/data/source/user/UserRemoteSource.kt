@@ -29,7 +29,7 @@ actual class UserRemoteSource actual constructor() {
                                 id = id,
                                 name = result.data?.get("name") as String?,
                                 phone = result.data?.get("phone") as String,
-                                companyIds = result.data?.get("companyIds") as List<String>
+                                companyIds = result.data?.get("companyIds") as? List<String>
                             )
                         )
                     } catch (e: Exception) {

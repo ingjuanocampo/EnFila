@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ingjuanocampo.enfila.android.R
-import com.ingjuanocampo.enfila.android.lobby.profile.FragmentProfile
 import com.ingjuanocampo.enfila.android.login.viewmodel.LoginState
 import com.ingjuanocampo.enfila.android.login.viewmodel.ViewModelLogin
 import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
