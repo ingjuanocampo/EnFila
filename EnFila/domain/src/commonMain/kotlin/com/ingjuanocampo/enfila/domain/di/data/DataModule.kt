@@ -1,9 +1,11 @@
 package com.ingjuanocampo.enfila.domain.di.data
 
+import com.ingjuanocampo.enfila.domain.data.CompanyRepositoryImpl
 import com.ingjuanocampo.enfila.domain.data.RepositoryImp
 import com.ingjuanocampo.enfila.domain.data.ShiftRepositoryImpl
 import com.ingjuanocampo.enfila.domain.data.UserRepositoryImpl
-import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteMockSource
+import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanyInfoRemoteSource
+import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteLocalSource
 import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteRemoteSource
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactMockSource
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactRemoteSource
@@ -25,8 +27,8 @@ internal object DataModule {
     }
 
     val companySiteRepository: Repository<List<CompanySite>> by lazy {
-        RepositoryImp(remoteSource = CompanySiteRemoteSource(),
-        localSource = CompanySiteMockSource())
+        CompanyRepositoryImpl(remoteSource = CompanySiteRemoteSource(CompanyInfoRemoteSource()),
+        localSource = CompanySiteLocalSource())
     }
 
     val clientRepository: Repository<List<Client>> by lazy {

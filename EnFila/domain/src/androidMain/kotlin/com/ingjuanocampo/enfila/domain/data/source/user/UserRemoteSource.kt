@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-const val userPath = "enfila_v1_users"
+const val basePath = "enfila_v1"
+
+private const val userPath = basePath + "_users"
 actual class UserRemoteSource actual constructor() {
 
     val db = Firebase.firestore

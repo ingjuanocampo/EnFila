@@ -19,7 +19,7 @@ object DomainModule {
 
     fun provideListUC() = ListUC(DataModule.shiftsRepository, providesShiftInteractions())
 
-    fun provideSignUC() = SignInUC(DataModule.userRepository)
+    fun provideSignUC() = SignInUC(DataModule.userRepository, DataModule.companySiteRepository)
 
 
 

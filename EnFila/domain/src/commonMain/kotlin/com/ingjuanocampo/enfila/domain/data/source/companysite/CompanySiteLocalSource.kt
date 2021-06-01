@@ -5,35 +5,32 @@ import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-private val listOfMockCompanies = arrayListOf(CompanySite(
-    id = "companyid",
-    name = "Sanduches Cuba"
-))
+val companySiteList: ArrayList<CompanySite> = ArrayList()
 
-class CompanySiteMockSource: LocalSource<List<CompanySite>> {
+class CompanySiteLocalSource: LocalSource<List<CompanySite>> {
 
     override suspend fun createOrUpdate(data: List<CompanySite>) {
-        listOfMockCompanies.addAll(data)
+        companySiteList.addAll(data)
     }
 
-
     override suspend fun delete(dataToDelete: List<CompanySite>) {
-        listOfMockCompanies.remove(dataToDelete)
+        companySiteList.remove(dataToDelete)
     }
 
     override fun getAllObserveData(): Flow<List<CompanySite>> {
-        return flow { emit(listOfMockCompanies) }
+        return flow { emit(companySiteList) }
     }
 
     override suspend fun getAllData(): List<CompanySite> {
-        return listOfMockCompanies
+        return companySiteList
     }
 
     override suspend fun getById(id: String): List<CompanySite> {
-        return listOfMockCompanies.filter { it.id == id }
+        return companySiteList.filter { it.id == id }
     }
 
     override suspend fun delete(id: String) {
-        TODO("Not yet implemented")
+
     }
+
 }

@@ -59,7 +59,7 @@ class FragmentLoginPhoneNumber: Fragment() {
         when(authState) {
             AuthState.Authenticated -> Log.d("Login", "Authenticated")
             is AuthState.AuthError -> Log.e("Login", authState.e.toString())
-            AuthState.NewAccount -> Log.d("Login", "Create new account required")
+            is AuthState.NewAccount -> Log.d("Login", "Create new account required")
         }
     }
 

@@ -1,33 +1,47 @@
 package com.ingjuanocampo.enfila.domain.usecases.signing
 
+import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import com.ingjuanocampo.enfila.domain.entity.User
+import com.ingjuanocampo.enfila.domain.entity.getNow
 import com.ingjuanocampo.enfila.domain.usecases.repository.UserRepository
-import kotlinx.coroutines.GlobalScope
+import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
-class SignInUC(private val userRepository: UserRepository) {
-
+class SignInUC(
+    private val userRepository: UserRepository,
+    private val companySiteRepository: Repository<List<CompanySite>>
+) {
 
     operator fun invoke(id: String): Flow<AuthState> {
         userRepository.id = id
-        return userRepository.getFetchAndObserve().map {data ->
+        return userRepository.getFetchAndObserve().map { data ->
             data != null
         }.map {
             if (it) {
-               AuthState.Authenticated
+                AuthState.Authenticated
             } else {
-                AuthState.NewAccount
+                AuthState.NewAccount(id)
             }
         }
     }
 
     suspend fun createUserAndSignIn(user: User, companyName: String): Flow<AuthState> {
-            return userRepository.createOrUpdateFlow(user).map { AuthState.Authenticated as AuthState }.catch { it ->
-                emit(AuthState.AuthError(it))
-            }
+        return companySiteRepository.createOrUpdateFlow(
+            listOf(
+                CompanySite(
+                    id = getNow().toString() + "CompanyId",
+                    name = companyName
+                )
+            )
+        ).flatMapLatest {
+            userRepository.createOrUpdateFlow(user).map { AuthState.Authenticated as AuthState }
+                .catch { it ->
+                    emit(AuthState.AuthError(it))
+                }
+        }
 
     }
 }

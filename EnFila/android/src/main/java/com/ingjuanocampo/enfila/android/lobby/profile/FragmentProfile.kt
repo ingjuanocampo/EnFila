@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.ingjuanocampo.enfila.android.R
 import com.ingjuanocampo.enfila.android.lobby.profile.viewmodel.ProfileState
 import com.ingjuanocampo.enfila.android.lobby.profile.viewmodel.ViewModelFragmentProfile
@@ -44,6 +43,8 @@ class FragmentProfile : Fragment() {
         createOrUpdateBt.setOnClickListener {
             viewModel.createUserAndLogin(nameEd.text.toString(), companyName.text.toString())
         }
+
+        viewModel.init(requireArguments())
 
         viewModel.state.observe(viewLifecycleOwner, {
             when(it) {
