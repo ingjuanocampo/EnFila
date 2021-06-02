@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ingjuanocampo.enfila.android.R
 import com.ingjuanocampo.enfila.android.login.viewmodel.LoginState
 import com.ingjuanocampo.enfila.android.login.viewmodel.ViewModelLogin
+import com.ingjuanocampo.enfila.di.AppComponent
 import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
 
 class FragmentVerificationCode : Fragment() {
@@ -41,7 +42,7 @@ class FragmentVerificationCode : Fragment() {
             when(it) {
                 is LoginState.AuthenticationProcessState ->
                     when (it.authState) {
-                    AuthState.Authenticated -> showToast("Authenticated")
+                    AuthState.Authenticated ->  AppComponent.providesState().navigateLaunchScreen()
                     is AuthState.NewAccount -> navController.navigate(R.id.action_fragmentVerificationCode_to_fragmentProfile, Bundle().apply {
                         putString("phone", viewModel.phoneNumber)
                         putString("id", it.authState.id)

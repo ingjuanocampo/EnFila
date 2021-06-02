@@ -8,7 +8,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
-import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
+import com.ingjuanocampo.enfila.di.AppComponent
 import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collect
@@ -23,7 +23,7 @@ class ViewModelLogin : ViewModel() {
     val state = MutableLiveData<LoginState>()
     var activity: Activity? = null
 
-    val signUC = DomainModule.provideSignUC()
+    val signUC = AppComponent.provideSignUC()
 
     var phoneNumber: String = ""
         set(value) {

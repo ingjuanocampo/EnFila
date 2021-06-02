@@ -11,6 +11,9 @@ import androidx.fragment.app.viewModels
 import com.ingjuanocampo.enfila.android.R
 import com.ingjuanocampo.enfila.android.lobby.profile.viewmodel.ProfileState
 import com.ingjuanocampo.enfila.android.lobby.profile.viewmodel.ViewModelFragmentProfile
+import com.ingjuanocampo.enfila.android.login.fragment.showToast
+import com.ingjuanocampo.enfila.di.AppComponent
+import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
 
 class FragmentProfile : Fragment() {
 
@@ -49,8 +52,16 @@ class FragmentProfile : Fragment() {
         viewModel.state.observe(viewLifecycleOwner, {
             when(it) {
                 is ProfileState.CreationFlow -> setPhoneAsBlocked(it.phone)
+                is ProfileState.AuthProcess -> handleAuthProcess(it.authState)
             }
         })
+    }
+
+    private fun handleAuthProcess(authState: AuthState) {
+        when (authState) {
+            AuthState.Authenticated -> AppComponent.providesState().navigateLaunchScreen()
+            is AuthState.AuthError -> showToast("Error, something when wrong")
+        }
     }
 
     private fun setPhoneAsBlocked(phone: String) {

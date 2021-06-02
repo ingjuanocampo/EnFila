@@ -16,6 +16,7 @@ import com.ingjuanocampo.enfila.domain.data.source.user.UserRemoteImpl
 import com.ingjuanocampo.enfila.domain.data.source.user.UserRemoteSource
 import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import com.ingjuanocampo.enfila.domain.entity.Client
+import com.ingjuanocampo.enfila.domain.usecases.repository.CompanyRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.UserRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
@@ -26,7 +27,7 @@ internal object DataModule {
         UserRepositoryImpl(UserRemoteImpl(UserRemoteSource()), UserLocalSource() )
     }
 
-    val companySiteRepository: Repository<List<CompanySite>> by lazy {
+    val companySiteRepository: CompanyRepository by lazy {
         CompanyRepositoryImpl(remoteSource = CompanySiteRemoteSource(CompanyInfoRemoteSource()),
         localSource = CompanySiteLocalSource())
     }

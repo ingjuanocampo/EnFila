@@ -1,7 +1,6 @@
 package com.ingjuanocampo.enfila.android.login.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ingjuanocampo.enfila.android.R
 import com.ingjuanocampo.enfila.android.login.viewmodel.LoginState
 import com.ingjuanocampo.enfila.android.login.viewmodel.ViewModelLogin
+import com.ingjuanocampo.enfila.di.AppComponent
 import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
 
 class FragmentLoginPhoneNumber: Fragment() {
@@ -57,9 +57,8 @@ class FragmentLoginPhoneNumber: Fragment() {
 
     private fun process(authState: AuthState) {
         when(authState) {
-            AuthState.Authenticated -> Log.d("Login", "Authenticated")
-            is AuthState.AuthError -> Log.e("Login", authState.e.toString())
-            is AuthState.NewAccount -> Log.d("Login", "Create new account required")
+            AuthState.Authenticated -> AppComponent.providesState().navigateLaunchScreen()
+            is AuthState.AuthError ->  showToast("Error" + authState.e.toString())
         }
     }
 

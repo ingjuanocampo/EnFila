@@ -47,9 +47,11 @@ open class RepositoryImp<Data>(
                 emit(initialData) // First value from Local
             }
             if (shouldFetch(initialData)) {
-                val dataToLocal = remoteSource.fetchData(id)
-                if (dataToLocal != null) {
-                    localSource.createOrUpdate(dataToLocal)
+                remoteSource.fetchInfoFlow(id).collect { dataToLocal ->
+                    if (dataToLocal != null) {
+                        localSource.createOrUpdate(dataToLocal)
+                    }
+                    emit(dataToLocal) // TODO This might be not required.
                 }
             }
             localSource.getAllObserveData().collect {

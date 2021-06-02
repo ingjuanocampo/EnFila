@@ -8,7 +8,10 @@ import kotlinx.coroutines.flow.Flow
 
 class UserRepositoryImpl(
     private val remote: RemoteSource<User>,
-private val localSource: LocalSource<User>): UserRepository, RepositoryImp<User>(remote, localSource) {
+    private val localSource: LocalSource<User>
+) : UserRepository, RepositoryImp<User>(remote, localSource) {
     override fun getFetchAndObserve(): Flow<User?> = remote.fetchInfoFlow(id)
+
+    override fun isUserLogged() = id.isNullOrBlank().not()
 
 }
