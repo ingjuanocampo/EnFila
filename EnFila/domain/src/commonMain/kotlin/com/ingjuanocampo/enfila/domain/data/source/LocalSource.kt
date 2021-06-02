@@ -4,8 +4,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocalSource<Data> {
     suspend fun createOrUpdate(data: Data)
-    suspend fun getData(repoInfo: RepoInfo?): Data?
-    fun getDataAndObserve(repoInfo: RepoInfo?): Flow<Data?>
     suspend fun delete(dataToDelete: Data)
     suspend fun delete(id: String)
     fun getAllObserveData(): Flow<Data?>

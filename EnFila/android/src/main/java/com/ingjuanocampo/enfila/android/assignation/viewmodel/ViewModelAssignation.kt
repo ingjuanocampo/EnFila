@@ -42,7 +42,7 @@ class ViewModelAssignation : ViewModel() {
     }
 
     private fun calculateNextTurn() {
-        viewModelScope.launchGeneral {
+        launchGeneral {
             closestTurn = shiftInteractions.getClosestNewShiftTurn()
             tunr = closestTurn
         }
@@ -57,7 +57,7 @@ class ViewModelAssignation : ViewModel() {
     }
 
     fun createAssignation() {
-        viewModelScope.launchGeneral {
+        launchGeneral {
             shiftInteractions.addNewTurn(tunr, phoneNumber, name, note)
         }
     }

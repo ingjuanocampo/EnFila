@@ -1,7 +1,6 @@
 package com.ingjuanocampo.enfila.android.login.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ingjuanocampo.enfila.android.R
 import com.ingjuanocampo.enfila.android.login.viewmodel.LoginState
 import com.ingjuanocampo.enfila.android.login.viewmodel.ViewModelLogin
+import com.ingjuanocampo.enfila.di.AppComponent
+import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
 
 class FragmentLoginPhoneNumber: Fragment() {
 
@@ -48,12 +49,17 @@ class FragmentLoginPhoneNumber: Fragment() {
         viewModel.state.observe(viewLifecycleOwner, {
             when(it) {
                 LoginState.ToVerifyCode -> navController.navigate(R.id.action_fragmentLoginPhoneNumber_to_fragmentVerificationCode)
-                LoginState.Authenticated -> Log.d("Login", "Authenticated")
-                is LoginState.AuthError -> Log.e("Login", it.e.toString())
+                is LoginState.AuthenticationProcessState -> process(it.authState)
                 LoginState.NumberSet -> doVerificationButton.isEnabled = true
             }
         })
+    }
 
+    private fun process(authState: AuthState) {
+        when(authState) {
+            AuthState.Authenticated -> AppComponent.providesState().navigateLaunchScreen()
+            is AuthState.AuthError ->  showToast("Error" + authState.e.toString())
+        }
     }
 
 

@@ -5,12 +5,11 @@ import com.ingjuanocampo.enfila.domain.state.states.NotLoggedState
 
 class AppStateProvider(
     private val loggedState: LoggedState,
-    private val notLoggedState: NotLoggedState
+    private val notLoggedState: NotLoggedState,
+    isLoggedMethod: () -> Boolean
 ) {
 
-    private fun isLogged() = false
-
-    private var currentState: AppState = if (isLogged()) loggedState else notLoggedState
+    private var currentState: AppState = if (isLoggedMethod()) loggedState else notLoggedState
 
     fun provideCurrentState(): AppState {
         return currentState

@@ -1,10 +1,9 @@
 package com.ingjuanocampo.enfila.android.login.viewmodel
 
-import java.lang.Exception
+import com.ingjuanocampo.enfila.domain.usecases.signing.AuthState
 
 sealed class LoginState {
     object NumberSet: LoginState()
     object ToVerifyCode: LoginState()
-    object Authenticated: LoginState()
-    data class AuthError(val e: Exception): LoginState()
+    data class AuthenticationProcessState(val authState: AuthState): LoginState()
 }

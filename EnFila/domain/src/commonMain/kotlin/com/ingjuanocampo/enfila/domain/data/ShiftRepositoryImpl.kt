@@ -1,6 +1,5 @@
 package com.ingjuanocampo.enfila.domain.data
 
-import com.ingjuanocampo.enfila.domain.data.source.LocalSource
 import com.ingjuanocampo.enfila.domain.data.source.RemoteSource
 import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftLocalSource
 import com.ingjuanocampo.enfila.domain.entity.Shift

@@ -43,6 +43,8 @@ kotlin {
             dependencies {
                 implementation("com.google.android.material:material:1.3.0")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
+                implementation ("com.google.firebase:firebase-firestore-ktx:23.0.0")
+
 
             }
         }

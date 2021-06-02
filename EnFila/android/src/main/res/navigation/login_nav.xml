@@ -18,5 +18,17 @@
         tools:layout="@layout/verification_code"
         android:id="@+id/fragmentVerificationCode"
         android:name="com.ingjuanocampo.enfila.android.login.fragment.FragmentVerificationCode"
-        android:label="FragmentVerificationCode" />
+        android:label="FragmentVerificationCode" >
+        <action
+            android:id="@+id/action_fragmentVerificationCode_to_fragmentProfile"
+            app:destination="@id/fragmentProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentProfile"
+        android:name="com.ingjuanocampo.enfila.android.lobby.profile.FragmentProfile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+    </fragment>
+
+
 </navigation>

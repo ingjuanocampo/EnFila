@@ -1,17 +1,12 @@
 package com.ingjuanocampo.enfila.android.splash
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.ingjuanocampo.enfila.domain.Greeting
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.ingjuanocampo.enfila.android.R
 import com.ingjuanocampo.enfila.di.AppComponent
-
-fun greet(): String {
-    return Greeting().greeting()
-}
 
 class SplashActivity : AppCompatActivity() {
 
@@ -22,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         val tv: TextView = findViewById(R.id.text_view)
-        viewModel.state.observe(this, Observer {
+        viewModel.state.observe(this, {
             finishAffinity()
             AppComponent.providesState().navigateLaunchScreen()
         })
@@ -32,4 +27,5 @@ class SplashActivity : AppCompatActivity() {
         super.onResume()
         viewModel.launchSplash()
     }
+
 }

@@ -4,7 +4,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface Repository<Data> {
 
+    var id: String
+
     suspend fun createOrUpdate(data: Data)
+
+    suspend fun createOrUpdateFlow(data: Data): Flow<Data?>
 
     suspend fun refresh(): Data?
 
