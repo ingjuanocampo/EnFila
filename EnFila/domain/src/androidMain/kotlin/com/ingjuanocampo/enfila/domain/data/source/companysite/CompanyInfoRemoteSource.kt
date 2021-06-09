@@ -14,25 +14,22 @@ actual class CompanyInfoRemoteSource actual constructor() {
 
     val db = Firebase.firestore
 
-    actual fun fetchData(id: String): Flow<List<CompanySite>?> {
+    actual fun fetchData(id: String): Flow<CompanySite?> {
         return db.fetchProcess({ data ->
-            return@fetchProcess arrayListOf(
-                CompanySite(
+            return@fetchProcess CompanySite(
                     id = id,
-                    name = data.get("name") as String?,
-                    shiftsIdList = data.get("shiftList") as List<String>
-                )
-            )
+                    name = data["name"] as String?,
+                    shiftsIdList = data["shiftList"] as List<String>?)
         }, companyInfoPath, id)
     }
 
-    actual fun updateData(data: List<CompanySite>): Flow<List<CompanySite>?> {
-        val data2 = data[0]
+    actual fun updateData(data: CompanySite): Flow<CompanySite?> {
         return db.uploadProcess({
             return@uploadProcess hashMapOf(
-                "name" to data2,
-                "shiftList" to data2.shiftsIdList
+                "id" to data.id,
+                "name" to data.name,
+                "shiftList" to data.shiftsIdList
             )
-        }, data, companyInfoPath, data2.id)
+        }, data, companyInfoPath, data.id)
     }
 }

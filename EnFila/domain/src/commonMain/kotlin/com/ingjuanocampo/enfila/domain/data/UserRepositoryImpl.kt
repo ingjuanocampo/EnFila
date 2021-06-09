@@ -13,5 +13,8 @@ class UserRepositoryImpl(
     override fun getFetchAndObserve(): Flow<User?> = remote.fetchInfoFlow(id)
 
     override fun isUserLogged() = id.isNullOrBlank().not()
+    override suspend fun getCurrent(): User? {
+        return localSource.getAllData()
+    }
 
 }

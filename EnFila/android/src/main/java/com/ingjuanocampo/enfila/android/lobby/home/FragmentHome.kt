@@ -1,18 +1,15 @@
 package com.ingjuanocampo.enfila.android.lobby.home
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.*
 import android.widget.Chronometer
-import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.ingjuanocampo.enfila.android.R
-import com.ingjuanocampo.enfila.android.assignation.ActivityAssignation
 import com.ingjuanocampo.enfila.android.assignation.BottomSheetAssignation
 import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.HomeState
 import com.ingjuanocampo.enfila.android.lobby.home.viewmodel.ViewModelHome
@@ -49,14 +46,14 @@ class FragmentHome : Fragment() {
             viewModel.next()
         }
 
-        toolbar = view.findViewById<Toolbar>(R.id.toolbarWidget)
-       setHasOptionsMenu(true)
-        currentNumber = view.findViewById<TextView>(R.id.currentNumber)
-        clientName = view.findViewById<TextView>(R.id.clientName)
-        clientPhone = view.findViewById<TextView>(R.id.clientPhone)
-        waitTime = view.findViewById<Chronometer>(R.id.waitTime)
-        totalInline = view.findViewById<TextView>(R.id.totalInline)
-        totalAverageTime = view.findViewById<TextView>(R.id.totalAverageTime)
+        toolbar = view.findViewById(R.id.toolbarWidget)
+        setHasOptionsMenu(true)
+        currentNumber = view.findViewById(R.id.currentNumber)
+        clientName = view.findViewById(R.id.clientName)
+        clientPhone = view.findViewById(R.id.clientPhone)
+        waitTime = view.findViewById(R.id.waitTime)
+        totalInline = view.findViewById(R.id.totalInline)
+        totalAverageTime = view.findViewById(R.id.totalAverageTime)
 
     }
 
@@ -82,7 +79,7 @@ class FragmentHome : Fragment() {
         viewModel.loadCurrentTurn()
 
 
-        viewModel.state.observe(viewLifecycleOwner, Observer {
+        viewModel.state.observe(viewLifecycleOwner, {
             when (it) {
                 HomeState.Loading -> {
                 }
@@ -93,7 +90,8 @@ class FragmentHome : Fragment() {
                     updateShift(it.shift)
                 }
                 is HomeState.HomeLoaded -> {
-                    (requireActivity() as AppCompatActivity).supportActionBar?.title = it.home.selectedCompany.name
+                    (requireActivity() as AppCompatActivity).supportActionBar?.title =
+                        it.home.selectedCompany.name
                     totalInline?.text = it.home.totalTurns.toString()
                     totalAverageTime?.text = it.home.avrTime.toString()
                     updateShift(it.home.currentTurn)
@@ -115,7 +113,8 @@ class FragmentHome : Fragment() {
             clientName?.text = shift.client.name
             clientPhone?.text = shift.client.id
             waitTime?.text = "${shift.shift.date}"
-            waitTime?.base = SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shift.shift.getDiffTime())
+            waitTime?.base =
+                SystemClock.elapsedRealtime() - TimeUnit.SECONDS.toMillis(shift.shift.getDiffTime())
             waitTime?.start()
             currentNumber?.text = "${shift.shift.number}"
         } ?: setEmpty()

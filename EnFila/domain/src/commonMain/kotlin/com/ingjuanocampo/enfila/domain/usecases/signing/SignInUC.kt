@@ -7,10 +7,7 @@ import com.ingjuanocampo.enfila.domain.state.AppStateProvider
 import com.ingjuanocampo.enfila.domain.usecases.repository.CompanyRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.UserRepository
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 
 class SignInUC(
     private val userRepository: UserRepository,
@@ -20,9 +17,13 @@ class SignInUC(
 
     operator fun invoke(id: String): Flow<AuthState> {
         userRepository.id = id
-        return userRepository.getAllObserveData().flatMapLatest { user ->
+        return userRepository.getAllObserveData().map { user ->
             companySiteRepository.id = user?.companyIds?.firstOrNull() ?: EMPTY_STRING
-            companySiteRepository.getAllObserveData().map { user }
+            user
+        }.flatMapLatest {
+            if (it != null){
+                companySiteRepository.getAllObserveData()
+            } else flowOf(null)
         }.map { data ->
             data != null
         }.map {
@@ -37,18 +38,16 @@ class SignInUC(
 
     suspend fun createUserAndSignIn(user: User, companyName: String): Flow<AuthState> {
         return companySiteRepository.createOrUpdateFlow(
-            listOf(
-                CompanySite(
-                    id = getNow().toString() + "CompanyId",
-                    name = companyName
-                )
+            CompanySite(
+                id = getNow().toString() + "CompanyId",
+                name = companyName
             )
-        ).flatMapLatest { companyList ->
-            user.companyIds = companyList?.map { it.id }.orEmpty()
+        ).flatMapLatest { company ->
+            user.companyIds = listOf(company?.id.orEmpty())
             userRepository.createOrUpdateFlow(user).map {
                 appStateProvider.toLoggedState()
-                AuthState.Authenticated as AuthState }
-                .catch { it ->
+                AuthState.Authenticated as AuthState
+            }.catch {
                     emit(AuthState.AuthError(it))
                 }
         }

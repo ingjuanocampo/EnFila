@@ -7,5 +7,5 @@ import com.ingjuanocampo.enfila.domain.usecases.repository.CompanyRepository
 
 class CompanyRepositoryImpl(val remoteSource: CompanySiteRemoteSource, val localSource: CompanySiteLocalSource):
     CompanyRepository,
-    RepositoryImp<List<CompanySite>>(remoteSource, localSource) {
+    RepositoryImp<CompanySite>(remoteSource, localSource) {
 }

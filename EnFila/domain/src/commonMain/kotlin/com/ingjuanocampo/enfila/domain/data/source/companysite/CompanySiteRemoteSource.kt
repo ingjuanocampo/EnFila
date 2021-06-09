@@ -5,24 +5,24 @@ import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 
-class CompanySiteRemoteSource(private val companySiteLocalSource: CompanyInfoRemoteSource): RemoteSource<List<CompanySite>> {
+class CompanySiteRemoteSource(private val companySiteLocalSource: CompanyInfoRemoteSource): RemoteSource<CompanySite> {
 
-    override fun fetchInfoFlow(id: String): Flow<List<CompanySite>?> {
+    override fun fetchInfoFlow(id: String): Flow<CompanySite?> {
         return companySiteLocalSource.fetchData(id)
     }
 
-    override suspend fun createOrUpdate(data: List<CompanySite>) {
+    override suspend fun createOrUpdate(data: CompanySite) {
         companySiteLocalSource.updateData(data = data).firstOrNull()
     }
 
-    override suspend fun fetchData(id: String): List<CompanySite>? {
+    override suspend fun fetchData(id: String): CompanySite? {
         return fetchInfoFlow(id).firstOrNull()
     }
 
 }
 
 expect class CompanyInfoRemoteSource() {
-    fun fetchData(id: String): Flow<List<CompanySite>?>
-    fun updateData(data: List<CompanySite>): Flow<List<CompanySite>?>
+    fun fetchData(id: String): Flow<CompanySite?>
+    fun updateData(data: CompanySite): Flow<CompanySite?>
 
 }

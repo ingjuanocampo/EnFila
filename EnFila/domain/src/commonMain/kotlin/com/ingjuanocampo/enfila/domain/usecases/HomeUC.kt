@@ -7,15 +7,18 @@ import com.ingjuanocampo.enfila.domain.entity.ShiftState
 import com.ingjuanocampo.enfila.domain.usecases.list.isActive
 import com.ingjuanocampo.enfila.domain.usecases.model.Home
 import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
+import com.ingjuanocampo.enfila.domain.usecases.repository.CompanyRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
+import com.ingjuanocampo.enfila.domain.usecases.repository.UserRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
+import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 
-class HomeUC(private val companyRepo: Repository<List<CompanySite>>
-             , val clientRepository: Repository<List<Client>>,
+class HomeUC(private val companyRepo: CompanyRepository,
+             val userRepository: UserRepository,
              val shiftRepository: ShiftRepository,
              val shiftInteractions: ShiftInteractions
 ) {
@@ -24,9 +27,11 @@ class HomeUC(private val companyRepo: Repository<List<CompanySite>>
 
     fun load(): Flow<Home> {
         return flow {
-            // TODO This id should come from a session
-            val currentCompany = companyRepo.getById("companyid")!!.first()
-            val home = Home(selectedCompany = currentCompany,
+
+            val user = userRepository.getCurrent()
+            companyRepo.id = user?.companyIds?.first()?: EMPTY_STRING
+            val currentCompany = companyRepo.getAllData()
+            val home = Home(selectedCompany = currentCompany?: CompanySite(),
                 totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count(),
                 avrTime = 306)
 

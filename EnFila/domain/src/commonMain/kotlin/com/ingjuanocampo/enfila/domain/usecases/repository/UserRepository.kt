@@ -9,5 +9,6 @@ interface UserRepository: Repository<User> {
     fun getFetchAndObserve(): Flow<User?>
 
     fun isUserLogged(): Boolean
+    suspend fun getCurrent(): User?
 
 }
