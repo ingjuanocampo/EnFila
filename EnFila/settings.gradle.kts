@@ -4,7 +4,7 @@ pluginManagement {
         jcenter()
         gradlePluginPortal()
         mavenCentral()
-        maven(url = "https://kotlin.bintray.com/kotlinx/")
+        maven(url = "https://jitpack.io")
     }
     
 }

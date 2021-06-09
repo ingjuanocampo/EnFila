@@ -21,7 +21,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.ingjuanocampo:cda:1.0.2")
+    implementation("com.github.ingjuanocampo:CompositeDelegateAdapter:1.0.3")
     implementation("com.google.firebase:firebase-bom:28.0.1")
     implementation("com.google.firebase:firebase-auth:20.0.4")
     implementation ("com.google.firebase:firebase-firestore-ktx:23.0.0")

@@ -5,7 +5,7 @@ buildscript {
         jcenter()
         google()
         mavenCentral()
-        maven(url = "https://kotlin.bintray.com/kotlinx/")
+        maven(url = "https://jitpack.io")
 
     }
     dependencies {
@@ -23,8 +23,7 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven(url = "https://kotlin.bintray.com/kotlinx/")
-        maven(url = "https://dl.bintray.com/ingjuanocampo/CDA")
+        maven(url = "https://jitpack.io")
 
     }
 }
