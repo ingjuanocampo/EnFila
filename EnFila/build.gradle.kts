@@ -6,12 +6,14 @@ buildscript {
         google()
         mavenCentral()
         maven(url = "https://jitpack.io")
+        maven(url = "https://oss.jfrog.org/artifactory/oss-snapshot-local")
 
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
         classpath("com.android.tools.build:gradle:4.1.2")
         classpath ("com.google.gms:google-services:4.3.8")
+        classpath("io.realm.kotlin:gradle-plugin:0.0.1-SNAPSHOT")
     }
 }
 
@@ -24,6 +26,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven(url = "https://jitpack.io")
+        maven(url = "https://oss.jfrog.org/artifactory/oss-snapshot-local")
 
     }
 }

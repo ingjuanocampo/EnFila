@@ -41,7 +41,6 @@ class ContactMockSource : LocalSource<List<Client>> {
 
 
     override suspend fun delete(dataToDelete: List<Client>) {
-        list.remove(dataToDelete)
     }
 
     override fun getAllObserveData(): Flow<List<Client>> {

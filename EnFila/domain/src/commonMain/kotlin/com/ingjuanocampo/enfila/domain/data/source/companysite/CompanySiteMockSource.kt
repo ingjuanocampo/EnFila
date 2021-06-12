@@ -18,7 +18,6 @@ class CompanySiteMockSource: LocalSource<List<CompanySite>> {
 
 
     override suspend fun delete(dataToDelete: List<CompanySite>) {
-        listOfMockCompanies.remove(dataToDelete)
     }
 
     override fun getAllObserveData(): Flow<List<CompanySite>> {

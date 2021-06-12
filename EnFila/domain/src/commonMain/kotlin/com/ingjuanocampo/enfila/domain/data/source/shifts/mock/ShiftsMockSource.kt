@@ -61,7 +61,6 @@ class ShiftsMockSource : ShiftLocalSource {
     }
 
     override suspend fun delete(dataToDelete: List<Shift>) {
-        list.remove(dataToDelete)
         flow.tryEmit(list)
     }
 
