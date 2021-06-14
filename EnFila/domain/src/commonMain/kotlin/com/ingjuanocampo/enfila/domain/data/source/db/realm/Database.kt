@@ -1,15 +1,14 @@
 package com.ingjuanocampo.enfila.domain.data.source.db.realm
 
+import com.ingjuanocampo.enfila.domain.Platform
 import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.UserEntity
-import com.ingjuanocampo.enfila.domain.entity.User
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-object Database {
+class Database(private val platform: Platform) {
 
-    private val configuration = RealmConfiguration(schema = setOf(UserEntity::class))
-
-    val realm = Realm.open(configuration)
-
-
+    val realm: Realm by lazy {
+        val configuration = RealmConfiguration(schema = setOf(UserEntity::class))
+        Realm.open(configuration)
+    }
 }

@@ -1,5 +1,6 @@
 package com.ingjuanocampo.enfila.domain.di.data
 
+import com.ingjuanocampo.enfila.domain.Platform
 import com.ingjuanocampo.enfila.domain.data.CompanyRepositoryImpl
 import com.ingjuanocampo.enfila.domain.data.RepositoryImp
 import com.ingjuanocampo.enfila.domain.data.ShiftRepositoryImpl
@@ -9,6 +10,7 @@ import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteLocalS
 import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteRemoteSource
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactMockSource
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactRemoteSource
+import com.ingjuanocampo.enfila.domain.data.source.db.realm.Database
 import com.ingjuanocampo.enfila.domain.data.source.shifts.mock.ShiftsMockSource
 import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftsRemoteSource
 import com.ingjuanocampo.enfila.domain.data.source.user.UserLocalSource
@@ -23,8 +25,14 @@ import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 
 internal object DataModule {
 
+    var appPlatform : Platform? = null
+
+    val database by lazy {
+        appPlatform?.let { Database(it) }
+    }
+
     val userRepository: UserRepository by lazy {
-        UserRepositoryImpl(UserRemoteImpl(UserRemoteSource()), UserLocalSource() )
+        UserRepositoryImpl(UserRemoteImpl(UserRemoteSource()), UserLocalSource(database!!) )
     }
 
     val companySiteRepository: CompanyRepository by lazy {

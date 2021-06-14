@@ -31,7 +31,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("io.realm.kotlin:library:0.0.1-SNAPSHOT")
+                implementation("io.realm.kotlin:library:${rootProject.extra["realm_version"]}")
 
             }
         }

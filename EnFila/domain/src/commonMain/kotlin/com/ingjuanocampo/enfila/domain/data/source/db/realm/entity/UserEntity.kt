@@ -6,10 +6,10 @@ import io.realm.RealmObject
 
 class UserEntity: RealmObject {
 
-    var id: String? = EMPTY_STRING
-    var phone: String? = EMPTY_STRING
-    var name: String? = EMPTY_STRING
-    var companyIds: List<String>? = null
+    var id: String = EMPTY_STRING
+    var phone: String = EMPTY_STRING
+    var name: String = EMPTY_STRING
+    var companyIds: String = EMPTY_STRING
 }
 
 fun User.toEntity(): UserEntity {
@@ -17,8 +17,8 @@ fun User.toEntity(): UserEntity {
     return UserEntity().apply {
         id = here.id
         phone = here.phone
-        name = here.name
-        companyIds = here.companyIds
+        name = here.name ?: EMPTY_STRING
+        companyIds = here.companyIds?.joinToString(",") ?: EMPTY_STRING
     }
 }
 
@@ -28,5 +28,5 @@ fun UserEntity.toModel() : User{
         id = here.id!!,
         phone = here.phone!!,
         name = here.name,
-        companyIds = here.companyIds)
+        companyIds = here.companyIds.split(","))
 }

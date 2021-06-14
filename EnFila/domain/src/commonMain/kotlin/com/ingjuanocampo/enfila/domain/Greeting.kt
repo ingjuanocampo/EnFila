@@ -1,8 +1,8 @@
 package com.ingjuanocampo.enfila.domain
 
 
-class   Greeting {
+class Greeting {
     fun greeting(): String {
-        return "Hello, ${Platform().platform}!"
+        return "Hello, "
     }
 }

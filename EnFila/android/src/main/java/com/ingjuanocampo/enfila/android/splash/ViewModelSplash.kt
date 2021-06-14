@@ -14,6 +14,7 @@ class ViewModelSplash : ViewModel() {
     fun launchSplash() {
         viewModelScope.launch {
             delay(TimeUnit.SECONDS.toMillis(1))
+
             state.postValue(Navigate)
         }
     }
