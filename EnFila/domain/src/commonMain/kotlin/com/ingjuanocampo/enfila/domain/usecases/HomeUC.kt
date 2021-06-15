@@ -12,10 +12,8 @@ import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.UserRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 
 class HomeUC(private val companyRepo: CompanyRepository,
              val userRepository: UserRepository,
@@ -48,7 +46,7 @@ class HomeUC(private val companyRepo: CompanyRepository,
                     emit(home)
                 }
             }
-        }
+        }.flowOn(Dispatchers.Default)
     }
 
     suspend fun next(): ShiftWithClient? {

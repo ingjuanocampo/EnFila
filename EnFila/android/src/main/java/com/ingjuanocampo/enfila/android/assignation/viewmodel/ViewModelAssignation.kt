@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule
+import kotlinx.coroutines.flow.collect
 
 class ViewModelAssignation : ViewModel() {
 
@@ -58,7 +59,9 @@ class ViewModelAssignation : ViewModel() {
 
     fun createAssignation() {
         launchGeneral {
-            shiftInteractions.addNewTurn(tunr, phoneNumber, name, note)
+            shiftInteractions.addNewTurn(tunr, phoneNumber, name, note).collect {
+
+            }
         }
     }
 

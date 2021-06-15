@@ -31,15 +31,14 @@ class Shift internal constructor(
 
 object ShiftFactory {
 
-    var currentCompanySiteId: String = "companyid"// for testing
-
     fun createWaiting(number: Int,
                       contactId: String,
-                      notes: String): Shift {
+                      notes: String,
+                      currentCompanySiteId: String): Shift {
         val instantNow = getNow()
         return Shift(
             date = instantNow,
-            id = instantNow.toString(),
+            id = number.toString() + currentCompanySiteId,
             parentCompanySite = currentCompanySiteId,
             number = number,
             contactId = contactId,

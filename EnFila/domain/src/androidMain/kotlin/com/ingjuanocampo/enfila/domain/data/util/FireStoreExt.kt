@@ -33,7 +33,7 @@ fun<T> FirebaseFirestore.uploadProcessMultiples(dataMapper: (T)-> Any, dataList:
     dataList.forEach { data ->
         val toUpload = dataMapper(data as T)
         this.collection(path)
-            .document(path + "/" + data.id)
+            .document(data.id)
             .set(toUpload)
             .addOnSuccessListener { documentReference ->
                 GlobalScope.launch {

@@ -31,7 +31,7 @@ object DomainModule {
 
     fun provideIsUserLoggedMethod(): () -> Boolean {
         return {
-            DataModule.userRepository.isUserLogged()
+            dataModule.userRepository.isUserLogged()
         }
     }
 

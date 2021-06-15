@@ -12,8 +12,8 @@ import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 import kotlinx.coroutines.flow.Flow
 
 actual class ShiftsRemoteSourceFirebase {
-    val remote = Firebase.firestore
-    val path = companyInfoPath + "_shifts"
+    private val remote = Firebase.firestore
+    private val shiftPath = "shifts"
 
     actual fun fetchData(id: String): Flow<List<Shift>?> {
         return remote.fetchProcessMultiples({
@@ -26,8 +26,10 @@ actual class ShiftsRemoteSourceFirebase {
                 notes = it["notes"] as String? ?: EMPTY_STRING,
                 state = getState(it["state"] as Int?)
             )
-        }, path)
+        }, getPath(id))
     }
+
+    private fun getPath(parentCompanySite: String) = "$companyInfoPath/$parentCompanySite/$shiftPath"
 
     private fun getState(value: Int?): ShiftState {
         return ShiftState.values().firstOrNull { it.ordinal == value ?: 0 } ?: ShiftState.WAITING
@@ -37,13 +39,13 @@ actual class ShiftsRemoteSourceFirebase {
     actual fun updateData(data: Shift): Flow<Shift?> {
         return remote.uploadProcess({
 
-        }, data, path, data.id)
+        }, data, getPath(data.parentCompanySite), data.id)
     }
 
     actual fun updateData(data: List<Shift>): Flow<List<Shift>?> {
         return remote.uploadProcessMultiples({
             return@uploadProcessMultiples mapShift(it)
-        }, data, path)
+        }, data, getPath(data.first().parentCompanySite))
     }
 
     private fun mapShift(it: Shift) = hashMapOf(

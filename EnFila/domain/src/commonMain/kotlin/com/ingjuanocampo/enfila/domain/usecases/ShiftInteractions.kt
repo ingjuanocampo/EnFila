@@ -4,6 +4,7 @@ import com.ingjuanocampo.enfila.domain.entity.*
 import com.ingjuanocampo.enfila.domain.usecases.model.ShiftWithClient
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 
 class ShiftInteractions(
@@ -49,9 +50,9 @@ class ShiftInteractions(
         return ShiftWithClient(shift, client!!)
     }
 
-    suspend fun addNewTurn(tunr: Int, phoneNumber: String, name: String?, note: String?) {
+    suspend fun addNewTurn(tunr: Int, phoneNumber: String, name: String?, note: String?): Flow<List<Shift>?> {
         val client = Client(id = phoneNumber, name = name)
         clientRepository.createOrUpdate(listOf(client))
-        shiftRepository.createOrUpdate(listOf(ShiftFactory.createWaiting(tunr, client.id, note?: "")))
+        return shiftRepository.createOrUpdateFlow(listOf(ShiftFactory.createWaiting(tunr, client.id, note?: "", shiftRepository.id)))
     }
 }

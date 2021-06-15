@@ -33,6 +33,7 @@ class UserLocalSource(val database: Database): LocalSource<User> {
 
     override suspend fun getAllData(): User? {
         return try { database.realm.objects<UserEntity>().firstOrNull()?.toModel()} catch (e: Exception) {
+            e.printStackTrace()
             return null
         }
     }
