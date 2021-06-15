@@ -8,7 +8,7 @@ import com.ingjuanocampo.enfila.domain.data.util.uploadProcess
 import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import kotlinx.coroutines.flow.Flow
 
-private const val companyInfoPath = basePath + "_company"
+const val companyInfoPath = basePath + "_company"
 
 actual class CompanyInfoRemoteSource actual constructor() {
 

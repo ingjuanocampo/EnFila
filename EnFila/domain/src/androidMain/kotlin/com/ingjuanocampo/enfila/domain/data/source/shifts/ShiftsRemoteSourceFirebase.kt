@@ -2,7 +2,7 @@ package com.ingjuanocampo.enfila.domain.data.source.shifts
 
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.ingjuanocampo.enfila.domain.data.source.user.basePath
+import com.ingjuanocampo.enfila.domain.data.source.companysite.companyInfoPath
 import com.ingjuanocampo.enfila.domain.data.util.fetchProcessMultiples
 import com.ingjuanocampo.enfila.domain.data.util.uploadProcess
 import com.ingjuanocampo.enfila.domain.data.util.uploadProcessMultiples
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 actual class ShiftsRemoteSourceFirebase {
     val remote = Firebase.firestore
-    val path = basePath + "_shifts"
+    val path = companyInfoPath + "_shifts"
 
     actual fun fetchData(id: String): Flow<List<Shift>?> {
         return remote.fetchProcessMultiples({
