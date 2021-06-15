@@ -11,12 +11,12 @@ import com.ingjuanocampo.enfila.domain.data.source.companysite.CompanySiteRemote
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactMockSource
 import com.ingjuanocampo.enfila.domain.data.source.contact.ContactRemoteSource
 import com.ingjuanocampo.enfila.domain.data.source.db.realm.Database
+import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftsRemoteSourceFirebase
 import com.ingjuanocampo.enfila.domain.data.source.shifts.mock.ShiftsMockSource
-import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftsRemoteSource
+import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftsRemoteSourceImpl
 import com.ingjuanocampo.enfila.domain.data.source.user.UserLocalSource
 import com.ingjuanocampo.enfila.domain.data.source.user.UserRemoteImpl
 import com.ingjuanocampo.enfila.domain.data.source.user.UserRemoteSource
-import com.ingjuanocampo.enfila.domain.entity.CompanySite
 import com.ingjuanocampo.enfila.domain.entity.Client
 import com.ingjuanocampo.enfila.domain.usecases.repository.CompanyRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
@@ -46,7 +46,7 @@ internal object DataModule {
     }
 
     val shiftsRepository: ShiftRepository by lazy {
-        ShiftRepositoryImpl(remoteSource = ShiftsRemoteSource(),
+        ShiftRepositoryImpl(remoteSource = ShiftsRemoteSourceImpl(ShiftsRemoteSourceFirebase()),
             localSource = ShiftsMockSource()
         )
     }

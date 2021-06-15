@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-
 // Constant mock data
 private val list = arrayListOf(
     ShiftFactory.createWaiting(1, "3137550991", "Fast please"),

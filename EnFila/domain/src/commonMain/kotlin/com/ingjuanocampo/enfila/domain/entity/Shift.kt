@@ -5,14 +5,14 @@ import kotlinx.datetime.Clock
 
 class Shift internal constructor(
     val date: Long,
-    val id: String? = EMPTY_STRING,
+    override val id: String = EMPTY_STRING,
     val parentCompanySite: String,
     var number: Int = 0,
     val contactId: String,
     val notes: String?,
     var state: ShiftState,
     var endDate: Long? = null
-) : Comparable<Shift> {
+) : Comparable<Shift>, IdentifyObject {
 
     override fun compareTo(other: Shift): Int {
         val numberCompare = this.number.compareTo(other.number)
