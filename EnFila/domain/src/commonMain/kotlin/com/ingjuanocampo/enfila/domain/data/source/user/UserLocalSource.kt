@@ -6,16 +6,24 @@ import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.UserEntity
 import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.toEntity
 import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.toModel
 import com.ingjuanocampo.enfila.domain.entity.User
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 
 class UserLocalSource(val database: Database): LocalSource<User> {
 
-    var user: User? = null
+    private val sharedFlow = MutableSharedFlow<User?>()
+
+    init {
+        database.realm.objects<UserEntity>().query().observe {
+            sharedFlow.emitInContext(it.firstOrNull()?.toModel())
+        }
+    }
+
     override suspend fun createOrUpdate(data: User) {
-        this.user = data
         database.realm.writeBlocking {
-            copyToRealm(user?.toEntity()!!)
+            copyToRealm(data?.toEntity()!!)
         }
     }
 
@@ -28,7 +36,7 @@ class UserLocalSource(val database: Database): LocalSource<User> {
     }
 
     override fun getAllObserveData(): Flow<User?> {
-        return flow { user }
+        return sharedFlow
     }
 
     override suspend fun getAllData(): User? {
@@ -42,3 +50,11 @@ class UserLocalSource(val database: Database): LocalSource<User> {
         return try {database.realm.objects<UserEntity>().query("id = $0", id).firstOrNull()?.toModel()} catch (e: Exception) {null}
     }
 }
+
+fun <T>MutableSharedFlow<T>.emitInContext(data: T) {
+    val shareFlow = this
+    GlobalScope.launch {
+        shareFlow.emit(data)
+    }
+}
+
