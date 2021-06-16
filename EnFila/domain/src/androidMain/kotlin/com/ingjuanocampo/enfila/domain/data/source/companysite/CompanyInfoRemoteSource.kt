@@ -1,4 +1,4 @@
-package com.ingjuanocampo.enfila.domain.data.source.companysite
+ package com.ingjuanocampo.enfila.domain.data.source.companysite
 
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

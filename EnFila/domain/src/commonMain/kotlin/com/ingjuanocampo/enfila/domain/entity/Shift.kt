@@ -28,6 +28,10 @@ class Shift internal constructor(
     }
 }
 
+fun getShiftState(value: Int?): ShiftState {
+    return ShiftState.values().firstOrNull { it.ordinal == value ?: 0 } ?: ShiftState.WAITING
+}
+
 
 object ShiftFactory {
 

@@ -8,6 +8,7 @@ import com.ingjuanocampo.enfila.domain.data.util.uploadProcess
 import com.ingjuanocampo.enfila.domain.data.util.uploadProcessMultiples
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
+import com.ingjuanocampo.enfila.domain.entity.getShiftState
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 import kotlinx.coroutines.flow.Flow
 
@@ -24,16 +25,12 @@ actual class ShiftsRemoteSourceFirebase {
                 number = it["number"] as Int? ?: 0,
                 contactId = it["contactId"] as String? ?: EMPTY_STRING,
                 notes = it["notes"] as String? ?: EMPTY_STRING,
-                state = getState(it["state"] as Int?)
+                state = getShiftState(it["state"] as Int?)
             )
         }, getPath(id))
     }
 
     private fun getPath(parentCompanySite: String) = "$companyInfoPath/$parentCompanySite/$shiftPath"
-
-    private fun getState(value: Int?): ShiftState {
-        return ShiftState.values().firstOrNull { it.ordinal == value ?: 0 } ?: ShiftState.WAITING
-    }
 
 
     actual fun updateData(data: Shift): Flow<Shift?> {

@@ -18,7 +18,7 @@ fun User.toEntity(): UserEntity {
         id = here.id
         phone = here.phone
         name = here.name ?: EMPTY_STRING
-        companyIds = here.companyIds?.joinToString(",") ?: EMPTY_STRING
+        companyIds = here.companyIds.toEntity()
     }
 }
 
@@ -28,5 +28,13 @@ fun UserEntity.toModel() : User{
         id = here.id!!,
         phone = here.phone!!,
         name = here.name,
-        companyIds = here.companyIds.split(","))
+        companyIds = here.companyIds.toList())
+}
+
+fun List<String>?.toEntity(): String {
+    return this?.joinToString(",") ?: EMPTY_STRING
+}
+
+fun String.toList(): List<String> {
+    return this.split(",")
 }
