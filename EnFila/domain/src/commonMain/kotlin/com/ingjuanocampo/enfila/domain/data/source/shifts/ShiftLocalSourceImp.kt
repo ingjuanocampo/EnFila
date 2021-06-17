@@ -7,39 +7,48 @@ import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.toModel
 import com.ingjuanocampo.enfila.domain.data.source.user.emitInContext
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
-class ShiftLocalSourceImp(val database: Database): ShiftLocalSource {
+class ShiftLocalSourceImp(val database: Database) : ShiftLocalSource {
 
     private val flow = MutableSharedFlow<List<Shift>?>()
 
-    init {
-        database.realm.objects<ShiftEntity>().query().observe { result ->
-            flow.emitInContext(result.map { it.toModel() }  )
+    private var isSubscribed: Boolean = false
+
+    private fun observeAll(): MutableSharedFlow<List<Shift>?> {
+        if (!isSubscribed) {
+            database.get().objects<ShiftEntity>().query().observe { result ->
+                flow.emitInContext(result.map { it.toModel() })
+            }
         }
+        isSubscribed = true
+        return flow
     }
 
     override fun getClosestShift(): Flow<Shift?> {
-        return flow.map { list ->
+        return observeAll().map { list ->
             list?.firstOrNull { it.state == ShiftState.WAITING }
         }
     }
 
     override fun getLastShift(): Flow<Shift?> {
-        return flow.map { it?.lastOrNull() }
+        return observeAll().map { it?.lastOrNull() }
     }
 
     override fun getCallingShift(): Flow<Shift?> {
-        return flow.map { list ->
+        return observeAll().map { list ->
             list?.firstOrNull { it.state == ShiftState.CALLING }
         }
     }
 
     override suspend fun createOrUpdate(data: List<Shift>) {
-        database.realm.writeBlocking {
+        database.get().writeBlocking {
             data.forEach {
                 copyToRealm(it.toEntity())
             }
@@ -48,23 +57,23 @@ class ShiftLocalSourceImp(val database: Database): ShiftLocalSource {
 
     override suspend fun delete(dataToDelete: List<Shift>) {
         dataToDelete.forEach {
-            database.realm.objects<ShiftEntity>().query("id = $0", it.id)
+            database.get().objects<ShiftEntity>().query("id = $0", it.id)
         }
     }
 
     override suspend fun delete(id: String) {
-        database.realm.objects<ShiftEntity>().query("id = $0", id)
+        database.get().objects<ShiftEntity>().query("id = $0", id)
     }
 
     override fun getAllObserveData(): Flow<List<Shift>?> {
-        return flow
+        return observeAll()
     }
 
     override suspend fun getAllData(): List<Shift>? {
-        return flow.firstOrNull()
+        return observeAll().firstOrNull()
     }
 
     override suspend fun getById(id: String): List<Shift>? {
-        return database.realm.objects<ShiftEntity>().query("id = $0", id)?.map { it.toModel() }
+        return database.get().objects<ShiftEntity>().query("id = $0", id)?.map { it.toModel() }
     }
 }

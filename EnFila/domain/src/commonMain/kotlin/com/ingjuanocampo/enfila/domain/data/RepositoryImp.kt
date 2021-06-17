@@ -5,10 +5,9 @@ import com.ingjuanocampo.enfila.domain.data.source.RemoteSource
 import com.ingjuanocampo.enfila.domain.data.util.RateLimiter
 import com.ingjuanocampo.enfila.domain.usecases.repository.base.Repository
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
 open class RepositoryImp<Data>(
@@ -19,15 +18,16 @@ open class RepositoryImp<Data>(
     private val keyId = Clock.System.now().epochSeconds.toString()
     private val rateLimiter = RateLimiter<String>(15)
 
-    override suspend fun createOrUpdate(data: Data) {
+    override suspend fun createOrUpdate(data: Data) = withContext(Dispatchers.Default) {
         remoteSource.createOrUpdate(data)
         localSource.createOrUpdate(data)
     }
 
-    override suspend fun refresh(): Data? {
-        val data = remoteSource.fetchData(id)
-        data?.let { localSource.createOrUpdate(it) }
-        return data
+    override suspend fun refresh(): Flow<Data?> {
+        return remoteSource.fetchInfoFlow(id).map { data ->
+            data?.let { localSource.createOrUpdate(it) }
+            data
+        }.flowOn(Dispatchers.Default)
     }
 
     private fun shouldFetch(initialData: Data?): Boolean {
@@ -36,7 +36,7 @@ open class RepositoryImp<Data>(
         } else true
     }
 
-    override suspend fun delete(dataToDelete: Data) {
+    override suspend fun delete(dataToDelete: Data) = withContext(Dispatchers.Default) {
         localSource.delete(dataToDelete)
     }
 
@@ -47,9 +47,11 @@ open class RepositoryImp<Data>(
                 emit(initialData) // First value from Local
             }
             if (shouldFetch(initialData)) {
-                remoteSource.fetchInfoFlow(id).collect { dataToLocal ->
+                remoteSource.fetchInfoFlow(id).flowOn(Dispatchers.Default).collect { dataToLocal ->
                     if (dataToLocal != null) {
-                        localSource.createOrUpdate(dataToLocal)
+                        withContext(Dispatchers.Default) {
+                            localSource.createOrUpdate(dataToLocal)
+                        }
                     }
                     emit(dataToLocal) // TODO This might be not required.
                 }
@@ -57,19 +59,19 @@ open class RepositoryImp<Data>(
             localSource.getAllObserveData().collect {
                 emit(it)
             }
-        }
+        }.flowOn(Dispatchers.Default)
     }
 
-    override suspend fun getAllData(): Data? {
-        return localSource.getAllData()
+    override suspend fun getAllData(): Data? = withContext(Dispatchers.Default) {
+        return@withContext localSource.getAllData()
     }
 
-    override suspend fun getById(id: String): Data? {
-        return localSource.getById(id)
+    override suspend fun getById(id: String): Data? = withContext(Dispatchers.Default) {
+        return@withContext localSource.getById(id)
     }
 
-    override suspend fun deleteById(id: String) {
-        return localSource.delete(id)
+    override suspend fun deleteById(id: String) = withContext(Dispatchers.Default) {
+        return@withContext localSource.delete(id)
     }
 
     override var id: String = EMPTY_STRING
@@ -78,6 +80,6 @@ open class RepositoryImp<Data>(
         return remoteSource.createOrUpdateFlow(data).map {
             localSource.createOrUpdate(data)
             data
-        }
+        }.flowOn(Dispatchers.Default)
     }
 }

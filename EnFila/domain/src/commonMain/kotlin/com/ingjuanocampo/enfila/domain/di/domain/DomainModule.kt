@@ -11,30 +11,38 @@ import com.ingjuanocampo.enfila.domain.usecases.list.ListUC
 
 object DomainModule {
 
-    var appPlatform : Platform ? = null
-    set(value) {
-        DataModule.appPlatform = value
-    }
+    var appPlatform: Platform? = null
+        set(value) {
+            DataModule.appPlatform = value
+        }
 
     private val dataModule = DataModule
 
-    fun providesShiftInteractions(): ShiftInteractions = ShiftInteractions(dataModule.shiftsRepository, dataModule.clientRepository)
+    fun providesShiftInteractions(): ShiftInteractions =
+        ShiftInteractions(dataModule.shiftsRepository, dataModule.clientRepository)
 
-    fun provideHomeUC() = HomeUC(DataModule.companySiteRepository, dataModule.userRepository, dataModule.shiftsRepository,
-        providesShiftInteractions())
+    fun provideHomeUC() = HomeUC(
+        DataModule.companySiteRepository, dataModule.userRepository, dataModule.shiftsRepository,
+        providesShiftInteractions()
+    )
 
-    fun provideLoadInitialInfo() = LoadInitialInfoUC(dataModule.userRepository, dataModule.shiftsRepository)
+    fun provideLoadInitialInfo() =
+        LoadInitialInfoUC(dataModule.userRepository, dataModule.shiftsRepository)
 
     fun provideListUC() = ListUC(DataModule.shiftsRepository, providesShiftInteractions())
 
-    fun provideSignUC(appStateProvider: AppStateProvider) = SignInUC(dataModule.userRepository, dataModule.companySiteRepository, appStateProvider)
+    fun provideSignUC(appStateProvider: AppStateProvider) = SignInUC(
+        dataModule.userRepository,
+        dataModule.companySiteRepository,
+        appStateProvider,
+        dataModule.shiftsRepository
+    )
 
     fun provideIsUserLoggedMethod(): () -> Boolean {
         return {
             dataModule.userRepository.isUserLogged()
         }
     }
-
 
 
 }

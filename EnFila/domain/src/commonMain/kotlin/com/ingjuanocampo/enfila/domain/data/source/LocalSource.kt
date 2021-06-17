@@ -11,3 +11,4 @@ interface LocalSource<Data> {
     suspend fun getById(id: String): Data?
 
 }
+

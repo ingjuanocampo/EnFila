@@ -5,6 +5,7 @@ import com.ingjuanocampo.enfila.domain.entity.User
 import com.ingjuanocampo.enfila.domain.entity.getNow
 import com.ingjuanocampo.enfila.domain.state.AppStateProvider
 import com.ingjuanocampo.enfila.domain.usecases.repository.CompanyRepository
+import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
 import com.ingjuanocampo.enfila.domain.usecases.repository.UserRepository
 import com.ingjuanocampo.enfila.domain.util.EMPTY_STRING
 import kotlinx.coroutines.flow.*
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.*
 class SignInUC(
     private val userRepository: UserRepository,
     private val companySiteRepository: CompanyRepository,
-    private val appStateProvider: AppStateProvider
+    private val appStateProvider: AppStateProvider,
+    private val shiftRepository: ShiftRepository
 ) {
 
     operator fun invoke(id: String): Flow<AuthState> {
@@ -24,6 +26,8 @@ class SignInUC(
             if (it != null){
                 companySiteRepository.getAllObserveData()
             } else flowOf(null)
+        }.flatMapConcat { companyData ->
+            shiftRepository.refresh().map { it }.catch { companyData }
         }.map { data ->
             data != null
         }.map {

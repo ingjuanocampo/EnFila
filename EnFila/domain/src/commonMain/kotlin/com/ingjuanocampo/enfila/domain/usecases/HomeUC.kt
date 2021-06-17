@@ -30,6 +30,7 @@ class HomeUC(private val companyRepo: CompanyRepository,
             companyRepo.id = user?.companyIds?.first()?: EMPTY_STRING
             shiftRepository.id = companyRepo.id
             val currentCompany = companyRepo.getAllData()
+
             val home = Home(selectedCompany = currentCompany?: CompanySite(),
                 totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count(),
                 avrTime = 306)

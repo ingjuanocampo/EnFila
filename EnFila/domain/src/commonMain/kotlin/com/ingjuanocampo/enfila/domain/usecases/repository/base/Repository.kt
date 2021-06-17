@@ -10,7 +10,7 @@ interface Repository<Data> {
 
     suspend fun createOrUpdateFlow(data: Data): Flow<Data?>
 
-    suspend fun refresh(): Data?
+    suspend fun refresh(): Flow<Data?>
 
     fun getAllObserveData(): Flow<Data?>
 

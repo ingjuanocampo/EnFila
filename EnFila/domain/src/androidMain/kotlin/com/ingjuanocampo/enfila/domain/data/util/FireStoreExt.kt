@@ -75,7 +75,7 @@ fun<T> FirebaseFirestore.fetchProcessMultiples(dataMapper: (Map<String, Any>)-> 
             }
     } catch (e: Exception) {
         GlobalScope.launch {
-            sharedFlow.emit(null)
+            sharedFlow.emit(null)// This scenario  is not working, review
         }
     }
 
