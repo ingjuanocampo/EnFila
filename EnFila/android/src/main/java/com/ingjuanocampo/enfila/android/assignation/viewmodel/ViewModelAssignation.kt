@@ -60,7 +60,9 @@ class ViewModelAssignation : ViewModel() {
     fun createAssignation() {
         launchGeneral {
             shiftInteractions.addNewTurn(tunr, phoneNumber, name, note).collect {
-
+                if (it != null) {
+                    assignationState.postValue(AssignationState.AssignationSet)
+                }
             }
         }
     }

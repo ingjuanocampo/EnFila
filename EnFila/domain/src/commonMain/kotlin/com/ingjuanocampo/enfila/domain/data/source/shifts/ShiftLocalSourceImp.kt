@@ -4,31 +4,33 @@ import com.ingjuanocampo.enfila.domain.data.source.db.realm.Database
 import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.ShiftEntity
 import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.toEntity
 import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.toModel
-import com.ingjuanocampo.enfila.domain.data.source.user.emitInContext
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ShiftLocalSourceImp(val database: Database) : ShiftLocalSource {
 
-    private val flow = MutableSharedFlow<List<Shift>?>()
-
     private var isSubscribed: Boolean = false
 
-    private fun observeAll(): MutableSharedFlow<List<Shift>?> {
-        if (!isSubscribed) {
-            database.get().objects<ShiftEntity>().query().observe { result ->
-                flow.emitInContext(result.map { it.toModel() })
+    private fun observeAll(): Flow<List<Shift>?> {
+        return flow {
+            val flow = this
+            if (!isSubscribed) {
+                database.get().objects<ShiftEntity>().query().observe { result ->
+                    GlobalScope.launch {
+                        flow.emit(result.map { it.toModel() })
+                    }
+                }
+
             }
+            val initialValues = getAllData()
+            flow.emit(initialValues)// emit initial value
+            isSubscribed = true
         }
-        isSubscribed = true
-        return flow
     }
 
     override fun getClosestShift(): Flow<Shift?> {
@@ -70,10 +72,10 @@ class ShiftLocalSourceImp(val database: Database) : ShiftLocalSource {
     }
 
     override suspend fun getAllData(): List<Shift>? {
-        return observeAll().firstOrNull()
+        return database.get().objects<ShiftEntity>().query().map { it.toModel() }
     }
 
     override suspend fun getById(id: String): List<Shift>? {
-        return database.get().objects<ShiftEntity>().query("id = $0", id)?.map { it.toModel() }
+        return database.get().objects<ShiftEntity>().query("id = $0", id).map { it.toModel() }
     }
 }

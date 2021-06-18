@@ -3,6 +3,7 @@ package com.ingjuanocampo.enfila.domain.data.util
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ingjuanocampo.enfila.domain.entity.IdentifyObject
 import com.ingjuanocampo.enfila.domain.entity.getNow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

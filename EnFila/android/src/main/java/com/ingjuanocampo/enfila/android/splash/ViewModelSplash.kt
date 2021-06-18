@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ingjuanocampo.enfila.android.utils.launchGeneral
 import com.ingjuanocampo.enfila.domain.di.domain.DomainModule.provideLoadInitialInfo
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -17,9 +18,10 @@ class ViewModelSplash : ViewModel() {
 
     fun launchSplash() {
         launchGeneral {
-            loadInitInfoUC()
-            delay(TimeUnit.SECONDS.toMillis(1))
-            state.postValue(Navigate)
+            loadInitInfoUC().collect {
+                delay(TimeUnit.SECONDS.toMillis(1))
+                state.postValue(Navigate)
+            }
         }
     }
 

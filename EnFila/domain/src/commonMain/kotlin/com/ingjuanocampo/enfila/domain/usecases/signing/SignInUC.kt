@@ -21,13 +21,16 @@ class SignInUC(
         userRepository.id = id
         return userRepository.getAllObserveData().map { user ->
             companySiteRepository.id = user?.companyIds?.firstOrNull() ?: EMPTY_STRING
+            shiftRepository.id = user?.companyIds?.firstOrNull() ?: EMPTY_STRING
             user
         }.flatMapLatest {
             if (it != null){
                 companySiteRepository.getAllObserveData()
             } else flowOf(null)
-        }.flatMapConcat { companyData ->
-            shiftRepository.refresh().map { it }.catch { companyData }
+        }.flatMapLatest { companyData ->
+            if (companyData != null) {
+                shiftRepository.refresh().map { companyData }.catch { companyData }
+            } else flowOf(null)
         }.map { data ->
             data != null
         }.map {

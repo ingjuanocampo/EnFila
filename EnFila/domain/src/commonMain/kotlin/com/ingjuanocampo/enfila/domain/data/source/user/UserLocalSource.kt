@@ -8,15 +8,10 @@ import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.toModel
 import com.ingjuanocampo.enfila.domain.entity.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class UserLocalSource(val database: Database): LocalSource<User> {
-
-    private val sharedFlow = MutableSharedFlow<User?>()
 
 
     override suspend fun createOrUpdate(data: User) {
@@ -36,10 +31,12 @@ class UserLocalSource(val database: Database): LocalSource<User> {
     override fun getAllObserveData(): Flow<User?> {
         return flow {
             database.get().objects<UserEntity>().query().observe {
-                sharedFlow.emitInContext(it.firstOrNull()?.toModel())
+                GlobalScope.launch {
+                    emit((it.firstOrNull()?.toModel()))
+                }
             }
-            emit(true)
-        }.flatMapConcat { sharedFlow }
+            emit(getAllData())
+        }
     }
 
     override suspend fun getAllData(): User? {

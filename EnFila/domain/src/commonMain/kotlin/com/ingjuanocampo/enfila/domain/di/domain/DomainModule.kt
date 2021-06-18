@@ -27,7 +27,7 @@ object DomainModule {
     )
 
     fun provideLoadInitialInfo() =
-        LoadInitialInfoUC(dataModule.userRepository, dataModule.shiftsRepository)
+        LoadInitialInfoUC(dataModule.userRepository, dataModule.shiftsRepository, dataModule.companySiteRepository)
 
     fun provideListUC() = ListUC(DataModule.shiftsRepository, providesShiftInteractions())
 
