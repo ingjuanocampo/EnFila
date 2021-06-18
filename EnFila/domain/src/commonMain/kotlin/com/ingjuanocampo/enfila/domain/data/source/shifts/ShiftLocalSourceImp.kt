@@ -7,30 +7,29 @@ import com.ingjuanocampo.enfila.domain.data.source.db.realm.entity.toModel
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.entity.ShiftState
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class ShiftLocalSourceImp(val database: Database) : ShiftLocalSource {
 
     private var isSubscribed: Boolean = false
 
-    private fun observeAll(): Flow<List<Shift>?> {
-        return flow {
-            val flow = this
-            if (!isSubscribed) {
-                database.get().objects<ShiftEntity>().query().observe { result ->
-                    GlobalScope.launch {
-                        flow.emit(result.map { it.toModel() })
-                    }
+    private val sharedFlow = MutableSharedFlow<List<Shift>?>()
+    private val initialFlow = flow {
+        if (!isSubscribed) {
+            database.get().objects<ShiftEntity>().observe { result ->
+                GlobalScope.launch {
+                    sharedFlow.emit(result.map { it.toModel() })
                 }
-
             }
-            val initialValues = getAllData()
-            flow.emit(initialValues)// emit initial value
-            isSubscribed = true
         }
+        isSubscribed = true
+        val initialValues = getAllData()
+        emit(initialValues)// emit initial value
+    }
+
+    private fun observeAll(): Flow<List<Shift>?> {
+        return merge(initialFlow, sharedFlow)
     }
 
     override fun getClosestShift(): Flow<Shift?> {
@@ -54,6 +53,10 @@ class ShiftLocalSourceImp(val database: Database) : ShiftLocalSource {
             data.forEach {
                 copyToRealm(it.toEntity())
             }
+        }
+        if (isSubscribed) {
+            val initialValues = getAllData()
+            sharedFlow.emit(initialValues)// emit initial value
         }
     }
 

@@ -39,21 +39,19 @@ class HomeUC(private val companyRepo: CompanyRepository,
 
             emit(home)
 
-            shiftRepository.getCallingShift().collect { shift ->
-                shift?.let {
-                    home.currentTurn = shiftInteractions.loadShiftWithClient(it)
-                    home.totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count()
-                    homeCache = home
-                    emit(home)
+        }.flatMapLatest {
+            shiftRepository.getCallingShift().map { shift ->
+                shift?.let { shift1 ->
+                    homeCache?.currentTurn = shiftInteractions.loadShiftWithClient(shift1)
+                    homeCache?.totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count()
                 }
+                homeCache!!
             }
         }.flowOn(Dispatchers.Default)
     }
 
     suspend fun next(): ShiftWithClient? {
-        return homeCache?.currentTurn.let { shift ->
-           shiftInteractions.next(shift?.shift)
-        }
+           return shiftInteractions.next(homeCache?.currentTurn?.shift)
     }
 
     fun delete() {

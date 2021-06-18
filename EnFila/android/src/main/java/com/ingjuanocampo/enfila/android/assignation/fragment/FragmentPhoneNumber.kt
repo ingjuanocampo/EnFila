@@ -23,7 +23,7 @@ class FragmentPhoneNumber : Fragment() {
         fun newInstance() = FragmentPhoneNumber()
     }
 
-    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = {requireActivity()})
+    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = { requireParentFragment().requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

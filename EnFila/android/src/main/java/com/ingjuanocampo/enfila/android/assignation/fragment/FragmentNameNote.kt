@@ -18,7 +18,7 @@ class FragmentNameNote : Fragment() {
 
     private val navController by lazy { NavHostFragment.findNavController(this) }
 
-    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = {requireActivity()})
+    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = { requireParentFragment().requireParentFragment() })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

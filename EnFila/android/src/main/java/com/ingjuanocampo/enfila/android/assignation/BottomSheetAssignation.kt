@@ -22,7 +22,7 @@ class BottomSheetAssignation: BottomSheetDialogFragment() {
 
 
     private val navController by lazy { findNavController(this) }
-    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = {requireActivity()})
+    private val viewModel: ViewModelAssignation by viewModels(ownerProducer = { this })
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
