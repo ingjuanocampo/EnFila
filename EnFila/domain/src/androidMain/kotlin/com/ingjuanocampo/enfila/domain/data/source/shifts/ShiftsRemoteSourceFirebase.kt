@@ -22,10 +22,10 @@ actual class ShiftsRemoteSourceFirebase {
                 date = it["date"] as Long? ?: 0L,
                 id = it["id"] as String,
                 parentCompanySite = it["parentCompanySite"] as String? ?: EMPTY_STRING,
-                number = it["number"] as Int? ?: 0,
+                number = (it["number"] as Long? ?: 0).toInt(),
                 contactId = it["contactId"] as String? ?: EMPTY_STRING,
                 notes = it["notes"] as String? ?: EMPTY_STRING,
-                state = getShiftState(it["state"] as Int?)
+                state = getShiftState((it["state"] as Long? ?: 0).toInt())
             )
         }, getPath(id))
     }

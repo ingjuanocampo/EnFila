@@ -16,16 +16,16 @@ class ShiftLocalSourceImp(val database: Database) : ShiftLocalSource {
 
     private val sharedFlow = MutableSharedFlow<List<Shift>?>()
     private val initialFlow = flow {
+        val initialValues = database.get().objects<ShiftEntity>()
         if (!isSubscribed) {
-            database.get().objects<ShiftEntity>().observe { result ->
+            initialValues.observe { result ->
                 GlobalScope.launch {
                     sharedFlow.emit(result.map { it.toModel() })
                 }
             }
         }
         isSubscribed = true
-        val initialValues = getAllData()
-        emit(initialValues)// emit initial value
+        emit(initialValues.query().map { it.toModel() })// emit initial value
     }
 
     private fun observeAll(): Flow<List<Shift>?> {
