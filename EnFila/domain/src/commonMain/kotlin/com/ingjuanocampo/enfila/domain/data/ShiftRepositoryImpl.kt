@@ -4,22 +4,21 @@ import com.ingjuanocampo.enfila.domain.data.source.RemoteSource
 import com.ingjuanocampo.enfila.domain.data.source.shifts.ShiftLocalSource
 import com.ingjuanocampo.enfila.domain.entity.Shift
 import com.ingjuanocampo.enfila.domain.usecases.repository.ShiftRepository
-import kotlinx.coroutines.flow.Flow
 
 class ShiftRepositoryImpl(
     private val remoteSource: RemoteSource<List<Shift>>,
     private val localSource: ShiftLocalSource
 ): ShiftRepository, RepositoryImp<List<Shift>>(remoteSource, localSource) {
 
-    override fun getClosestShift(): Flow<Shift?> {
+    override suspend fun getClosestShift(): Shift? {
         return localSource.getClosestShift()
     }
 
-    override fun getLastShift(): Flow<Shift?> {
+    override suspend fun getLastShift(): Shift? {
         return localSource.getLastShift()
     }
 
-    override fun getCallingShift(): Flow<Shift?> {
+    override suspend fun getCallingShift(): Shift? {
         return localSource.getCallingShift()
     }
 }

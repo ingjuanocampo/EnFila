@@ -32,20 +32,17 @@ class ShiftLocalSourceImp(val database: Database) : ShiftLocalSource {
         return merge(initialFlow, sharedFlow)
     }
 
-    override fun getClosestShift(): Flow<Shift?> {
-        return observeAll().map { list ->
-            list?.firstOrNull { it.state == ShiftState.WAITING }
-        }
+    override suspend fun  getClosestShift(): Shift? {
+        return getAllData()?.firstOrNull{ it.state == ShiftState.WAITING }
     }
 
-    override fun getLastShift(): Flow<Shift?> {
-        return observeAll().map { it?.lastOrNull() }
+    override suspend fun getLastShift(): Shift? {
+        return getAllData()?.lastOrNull()
     }
 
-    override fun getCallingShift(): Flow<Shift?> {
-        return observeAll().map { list ->
-            list?.firstOrNull { it.state == ShiftState.CALLING }
-        }
+    override suspend fun getCallingShift(): Shift? {
+        return getAllData()?.firstOrNull { it.state == ShiftState.CALLING }
+
     }
 
     override suspend fun createOrUpdate(data: List<Shift>) {

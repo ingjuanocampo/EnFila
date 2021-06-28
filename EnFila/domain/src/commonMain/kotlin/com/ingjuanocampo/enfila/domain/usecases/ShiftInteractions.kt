@@ -11,13 +11,12 @@ class ShiftInteractions(
     private val shiftRepository: ShiftRepository
     , private val clientRepository: Repository<List<Client>>) {
 
-
     suspend fun next(current: Shift?): ShiftWithClient? {
 
         current?.let { updateShift(it.apply {
             endDate = getNow()
         }, ShiftState.FINISHED) }
-        val closestShift = shiftRepository.getClosestShift().firstOrNull()
+        val closestShift = shiftRepository.getClosestShift()
         closestShift?.state = ShiftState.CALLING
 
         closestShift?.let {
@@ -32,7 +31,7 @@ class ShiftInteractions(
     }
     
     suspend fun getClosestNewShiftTurn(): Int {
-       val lastTurn =  shiftRepository.getLastShift().firstOrNull()?.number
+       val lastTurn =  shiftRepository.getLastShift()?.number
         return if (lastTurn == null) {
             1
         } else {

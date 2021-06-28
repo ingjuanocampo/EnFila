@@ -27,26 +27,27 @@ class HomeUC(private val companyRepo: CompanyRepository,
         return flow {
 
             val user = userRepository.getCurrent()
-            companyRepo.id = user?.companyIds?.first()?: EMPTY_STRING
+            companyRepo.id = user?.companyIds?.first() ?: EMPTY_STRING
             shiftRepository.id = companyRepo.id
             val currentCompany = companyRepo.getAllData()
 
-            val home = Home(selectedCompany = currentCompany?: CompanySite(),
+            val home = Home(
+                selectedCompany = currentCompany ?: CompanySite(),
                 totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count(),
-                avrTime = 306)
+                avrTime = 306
+            )
 
             homeCache = home
 
             emit(home)
-
-        }.flatMapLatest {
-            shiftRepository.getCallingShift().map { shift ->
-                shift?.let { shift1 ->
-                    homeCache?.currentTurn = shiftInteractions.loadShiftWithClient(shift1)
-                    homeCache?.totalTurns = shiftRepository.getAllData()!!.filter { it.isActive() }.count()
-                }
-                homeCache!!
+            shiftRepository.getCallingShift()?.let { shift1 ->
+                homeCache?.currentTurn = shiftInteractions.loadShiftWithClient(shift1)
+                homeCache?.totalTurns =
+                    shiftRepository.getAllData()!!.filter { it.isActive() }.count()
             }
+            emit(homeCache!!)
+
+
         }.flowOn(Dispatchers.Default)
     }
 

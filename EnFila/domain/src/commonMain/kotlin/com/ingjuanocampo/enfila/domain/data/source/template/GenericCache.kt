@@ -44,4 +44,16 @@ class GenericCache<T>: Storage<T> {
             }
         }
     }
+
+    override fun deleteAll() {
+        cacheList.clear()
+        shareCacheFlow.tryEmit(getData())
+    }
+
+    override fun deleteById(id: String) {
+        /*cacheList.indexOf(id)?.let {
+            cacheList.removeAt(it)
+        }
+        shareCacheFlow.tryEmit(getData())*/
+    }
 }

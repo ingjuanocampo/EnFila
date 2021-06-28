@@ -19,6 +19,7 @@ private val list = arrayListOf(
     ShiftFactory.createWaiting(4, "3137550994", "Fast please",""),
     ShiftFactory.createWaiting(5, "3137550995", "Fast please","")
 )
+/*
 
 class ShiftsMockSource : ShiftLocalSource {
 
@@ -78,4 +79,4 @@ class ShiftsMockSource : ShiftLocalSource {
     override suspend fun delete(id: String) {
         TODO("Not yet implemented")
     }
-}
+}*/

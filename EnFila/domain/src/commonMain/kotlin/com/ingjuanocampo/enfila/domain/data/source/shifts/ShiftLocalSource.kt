@@ -5,9 +5,9 @@ import com.ingjuanocampo.enfila.domain.entity.Shift
 import kotlinx.coroutines.flow.Flow
 
 interface ShiftLocalSource: LocalSource<List<Shift>> {
-    fun getClosestShift(): Flow<Shift?>
+    suspend fun getClosestShift(): Shift?
 
-    fun getLastShift(): Flow<Shift?>
+    suspend fun getLastShift(): Shift?
 
-    fun getCallingShift(): Flow<Shift?>
+    suspend fun getCallingShift(): Shift?
 }
